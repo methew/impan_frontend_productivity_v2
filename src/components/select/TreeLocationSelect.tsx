@@ -3,7 +3,7 @@
  * 支持树形结构展示、搜索过滤
  */
 import { useState, useMemo } from 'react'
-import { ChevronRight, ChevronDown, Search, Check, X, MapPin } from 'lucide-react'
+import { ChevronRight, ChevronDown, Search, Check, X, MapPin, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -22,6 +22,7 @@ interface TreeLocationSelectProps {
   disabled?: boolean
   className?: string
   label?: string
+  isLoading?: boolean
 }
 
 // 构建地点树
@@ -152,6 +153,7 @@ export function TreeLocationSelect({
   disabled,
   className,
   label,
+  isLoading = false,
 }: TreeLocationSelectProps) {
   const [open, setOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -196,7 +198,7 @@ export function TreeLocationSelect({
           <Button
             type="button"
             variant="outline"
-            disabled={disabled}
+            disabled={disabled || isLoading}
             className="w-full justify-between"
           >
             <span className={cn("truncate flex items-center gap-2", !displayName && "text-muted-foreground")}>
@@ -210,13 +212,13 @@ export function TreeLocationSelect({
               )}
             </span>
             <div className="flex items-center gap-1">
-              {displayName && (
+              {displayName && !isLoading && (
                 <X
                   className="size-4 text-muted-foreground hover:text-foreground"
                   onClick={handleClear}
                 />
               )}
-              {open ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
+              {isLoading ? <Loader2 className="size-4 animate-spin" /> : open ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
             </div>
           </Button>
         </PopoverTrigger>
@@ -233,7 +235,11 @@ export function TreeLocationSelect({
             </div>
           </div>
           <div className="max-h-80 overflow-auto p-2">
-            {locations.length === 0 ? (
+            {isLoading ? (
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="size-4 animate-spin text-muted-foreground" />
+              </div>
+            ) : locations.length === 0 ? (
               <p className="text-center text-muted-foreground py-4">No locations available</p>
             ) : (
               locationTree.map((location) => (

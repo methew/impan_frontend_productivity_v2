@@ -3,7 +3,7 @@
  * 支持树形结构展示、搜索过滤、多选
  */
 import { useState, useMemo } from 'react'
-import { ChevronRight, ChevronDown, Search, Check, X, Tag as TagIcon } from 'lucide-react'
+import { ChevronRight, ChevronDown, Search, Check, X, Tag as TagIcon, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -23,6 +23,7 @@ interface TreeTagSelectProps {
   disabled?: boolean
   className?: string
   label?: string
+  isLoading?: boolean
 }
 
 // 构建标签树
@@ -153,6 +154,7 @@ export function TreeTagSelect({
   disabled,
   className,
   label,
+  isLoading = false,
 }: TreeTagSelectProps) {
   const [open, setOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -200,7 +202,7 @@ export function TreeTagSelect({
           <Button
             type="button"
             variant="outline"
-            disabled={disabled}
+            disabled={disabled || isLoading}
             className="w-full justify-between min-h-10 h-auto py-2"
           >
             <div className="flex flex-wrap gap-1 flex-1">
@@ -226,7 +228,7 @@ export function TreeTagSelect({
                 ))
               )}
             </div>
-            <ChevronDown className="size-4 ml-2 shrink-0" />
+            {isLoading ? <Loader2 className="size-4 ml-2 shrink-0 animate-spin" /> : <ChevronDown className="size-4 ml-2 shrink-0" />}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80 p-0" align="start">
@@ -242,7 +244,11 @@ export function TreeTagSelect({
             </div>
           </div>
           <div className="max-h-80 overflow-auto p-2">
-            {tags.length === 0 ? (
+            {isLoading ? (
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="size-4 animate-spin text-muted-foreground" />
+              </div>
+            ) : tags.length === 0 ? (
               <p className="text-center text-muted-foreground py-4">No tags available</p>
             ) : (
               tagTree.map((tag) => (
