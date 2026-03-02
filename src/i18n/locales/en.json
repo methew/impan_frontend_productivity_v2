@@ -1,0 +1,291 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "search": "Search",
+    "empty": "Empty",
+    "active": "Active",
+    "completed": "Completed",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "overdue": "Overdue",
+    "dueSoon": "Due Soon",
+    "flagged": "Flagged",
+    "inbox": "Inbox",
+    "tasks": "Tasks",
+    "folders": "Folders",
+    "projects": "Projects",
+    "tags": "Tags",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Log out",
+    "login": "Login",
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "refresh": "Refresh",
+    "forecast": "Forecast",
+    "location": "Location",
+    "review": "Review",
+    "yes": "Yes",
+    "no": "No",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "navigation": {
+    "inbox": "Inbox",
+    "projects": "Projects",
+    "tags": "Tags",
+    "forecast": "Forecast",
+    "flagged": "Flagged",
+    "location": "Location",
+    "review": "Review",
+    "settings": "Settings",
+    "dashboard": "Dashboard",
+    "home": "Home",
+    "login": "Login",
+    "profile": "Profile",
+    "logout": "Log out",
+    "main": "Main",
+    "organization": "Organization",
+    "focusMode": "Focus Mode"
+  },
+  "login": {
+    "title": "Productivity",
+    "subtitle": "Sign in to manage your tasks and projects",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "forgotPassword": "Forgot password?",
+    "errorRequired": "Please enter both email and password",
+    "successTitle": "Login successful",
+    "successMessage": "Welcome back!",
+    "errorTitle": "Login failed"
+  },
+  "inbox": {
+    "title": "Inbox",
+    "tasksCount": "{{count}} tasks waiting to be organized",
+    "addTaskPlaceholder": "Add a new task to inbox...",
+    "addButton": "Add",
+    "unorganizedTasks": "Unorganized Tasks",
+    "emptyTitle": "Your inbox is empty",
+    "emptyDescription": "New tasks will appear here"
+  },
+  "projects": {
+    "title": "Projects",
+    "noProjects": "No projects found",
+    "selectPrompt": "Select a folder or project",
+    "selectDescription": "View and manage tasks here",
+    "completionPercentage": "{{percentage}}%",
+    "tasksCount": "{{count}} tasks",
+    "projectsCount": "{{count}} projects",
+    "noTasksInProject": "No tasks in this project",
+    "noTasksInFolder": "No tasks in this folder",
+    "status": {
+      "active": "Active",
+      "onHold": "On Hold",
+      "dropped": "Dropped",
+      "completed": "Completed"
+    }
+  },
+  "tags": {
+    "title": "Tags",
+    "loading": "Loading...",
+    "noTags": "No tags found",
+    "selectPrompt": "Select a tag to view associated tasks and projects",
+    "tasks": "Tasks",
+    "projects": "Projects",
+    "noTasks": "No tasks with this tag",
+    "noProjects": "No projects with this tag",
+    "builtIn": "Built-in",
+    "inactive": "Inactive"
+  },
+  "flagged": {
+    "title": "Flagged",
+    "tasksCount": "{{count}} flagged tasks",
+    "active": "Active",
+    "completed": "Completed",
+    "emptyTitle": "No flagged tasks",
+    "emptyDescription": "Flag important tasks to see them here",
+    "emptyCompleted": "No completed flagged tasks"
+  },
+  "forecast": {
+    "title": "Forecast",
+    "dateRange": "{{start}} - {{end}}",
+    "today": "Today",
+    "overdue": "Overdue",
+    "dueToday": "Due Today",
+    "plannedToday": "Planned Today",
+    "noItems": "No items",
+    "taskTypes": {
+      "due": "Due",
+      "planned": "Planned",
+      "defer": "Available"
+    }
+  },
+  "location": {
+    "title": "Locations",
+    "searchPlaceholder": "Search...",
+    "selectPrompt": "Select a location to view details",
+    "create": "Create Location",
+    "edit": "Edit Location",
+    "delete": "Delete Location",
+    "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "basicInfo": "Basic Information",
+    "englishTitle": "English Title",
+    "chineseTitle": "Chinese Title",
+    "japaneseTitle": "Japanese Title",
+    "locationType": "Location Type",
+    "code": "Code",
+    "abbreviation": "Abbreviation",
+    "address": "Address",
+    "relatedItems": "Related Items",
+    "metadata": "Metadata",
+    "created": "Created",
+    "updated": "Updated",
+    "parentLocation": "Parent Location",
+    "details": "Details",
+    "form": {
+      "type": "Type",
+      "typePlaceholder": "Select type",
+      "codePlaceholder": "e.g., CN",
+      "abbreviationPlaceholder": "e.g., CHN",
+      "titlePlaceholder": "e.g., China",
+      "titleZhPlaceholder": "e.g., 中国",
+      "titleJaPlaceholder": "e.g., 中国",
+      "addressPlaceholder": "Full address",
+      "required": "*"
+    },
+    "inboxTasks": "Inbox Tasks"
+  },
+  "review": {
+    "title": "Review",
+    "projectsCount": "{{count}} projects need review",
+    "refresh": "Refresh",
+    "overdueReview": "Overdue Review ({{count}})",
+    "dueForReview": "Due for Review ({{count}})",
+    "loadingProjects": "Loading projects...",
+    "noProjects": "No projects need review",
+    "allUpToDate": "All projects are up to date!",
+    "checklistTitle": "Review Checklist",
+    "checklist": {
+      "relevant": "Check if all tasks are still relevant and actionable",
+      "status": "Update project status if it should be on hold or dropped",
+      "dates": "Review due dates and adjust if needed",
+      "folder": "Ensure project is organized in the correct folder",
+      "markReviewed": "Mark as reviewed when done"
+    },
+    "markReviewed": "Mark Reviewed",
+    "overdue": "Overdue",
+    "completion": "{{percentage}}% complete",
+    "reviewDue": "Review due: {{date}}",
+    "everyDays": "Every {{days}} days"
+  },
+  "inspector": {
+    "title": "Task Details",
+    "titleLabel": "Title",
+    "overdueWarning": "This task is overdue",
+    "status": {
+      "completed": "Completed",
+      "flagged": "Flagged",
+      "active": "Active"
+    },
+    "flag": "Flag",
+    "project": "Project",
+    "dates": "Dates",
+    "deferDate": "Defer (Available from)",
+    "plannedDate": "Planned (When to do)",
+    "dueDate": "Due (Deadline)",
+    "tags": "Tags",
+    "noTags": "No tags assigned",
+    "notes": "Notes",
+    "notesPlaceholder": "Add notes...",
+    "metadata": {
+      "created": "Created",
+      "modified": "Modified",
+      "type": "Type"
+    }
+  },
+  "quickOpen": {
+    "placeholder": "Search perspectives, projects, tags, tasks...",
+    "noResults": "No results found",
+    "navigate": "Navigate",
+    "select": "Select",
+    "close": "Close",
+    "shortcut": "Cmd+K",
+    "types": {
+      "perspective": "perspective",
+      "folder": "folder",
+      "project": "project",
+      "tag": "tag",
+      "task": "task"
+    }
+  },
+  "taskList": {
+    "empty": "No tasks",
+    "overdue": "Overdue",
+    "dueSoon": "Due Soon",
+    "tooltip": "Click to complete, Double-click row to edit"
+  },
+  "sidebar": {
+    "appName": "Productivity",
+    "appDescription": "Task Management",
+    "focusMode": "Focus Mode",
+    "focusActive": "Active"
+  },
+  "settings": {
+    "title": "Settings",
+    "core": {
+      "title": "Core Settings",
+      "description": "General application preferences",
+      "theme": "Theme",
+      "language": "Language",
+      "notifications": "Notifications",
+      "notificationsDescription": "Enable push notifications",
+      "themeOptions": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "languageOptions": {
+        "zh": "中文",
+        "en": "English",
+        "ja": "日本語"
+      }
+    },
+    "productivity": {
+      "title": "Productivity Settings",
+      "description": "Preferences for the productivity module",
+      "pomodoroDuration": "Pomodoro Duration (min)",
+      "shortBreak": "Short Break (min)",
+      "longBreak": "Long Break (min)",
+      "sound": "Sound",
+      "soundDescription": "Enable sound notifications"
+    },
+    "actions": {
+      "reset": "Reset to Defaults",
+      "save": "Save Changes"
+    },
+    "messages": {
+      "coreSaved": "Core settings saved",
+      "coreError": "Failed to save core settings",
+      "coreReset": "Core settings reset to defaults",
+      "coreResetError": "Failed to reset core settings",
+      "productivitySaved": "Productivity settings saved",
+      "productivityError": "Failed to save productivity settings",
+      "productivityReset": "Productivity settings reset to defaults",
+      "productivityResetError": "Failed to reset productivity settings"
+    }
+  }
+}

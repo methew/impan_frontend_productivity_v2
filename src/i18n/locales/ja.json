@@ -1,0 +1,291 @@
+{
+  "common": {
+    "loading": "読み込み中...",
+    "save": "保存",
+    "saving": "保存中...",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "deleting": "削除中...",
+    "edit": "編集",
+    "create": "作成",
+    "close": "閉じる",
+    "search": "検索",
+    "empty": "空",
+    "active": "進行中",
+    "completed": "完了",
+    "today": "今日",
+    "tomorrow": "明日",
+    "overdue": "期限切れ",
+    "dueSoon": "期限間近",
+    "flagged": "フラグ付き",
+    "inbox": "受信箱",
+    "tasks": "タスク",
+    "folders": "フォルダ",
+    "projects": "プロジェクト",
+    "tags": "タグ",
+    "settings": "設定",
+    "profile": "プロフィール",
+    "logout": "ログアウト",
+    "login": "ログイン",
+    "home": "ホーム",
+    "dashboard": "ダッシュボード",
+    "refresh": "更新",
+    "forecast": "予測",
+    "location": "場所",
+    "review": "レビュー",
+    "yes": "はい",
+    "no": "いいえ",
+    "success": "成功",
+    "error": "エラー",
+    "warning": "警告",
+    "info": "情報"
+  },
+  "navigation": {
+    "inbox": "受信箱",
+    "projects": "プロジェクト",
+    "tags": "タグ",
+    "forecast": "予測",
+    "flagged": "フラグ付き",
+    "location": "場所",
+    "review": "レビュー",
+    "settings": "設定",
+    "dashboard": "ダッシュボード",
+    "home": "ホーム",
+    "login": "ログイン",
+    "profile": "プロフィール",
+    "logout": "ログアウト",
+    "main": "メイン",
+    "organization": "組織",
+    "focusMode": "集中モード"
+  },
+  "login": {
+    "title": "生産性ツール",
+    "subtitle": "タスクとプロジェクトを管理するにはログインしてください",
+    "email": "メールアドレス",
+    "emailPlaceholder": "メールアドレスを入力",
+    "password": "パスワード",
+    "passwordPlaceholder": "パスワードを入力",
+    "signIn": "ログイン",
+    "signingIn": "ログイン中...",
+    "forgotPassword": "パスワードを忘れましたか？",
+    "errorRequired": "メールアドレスとパスワードを入力してください",
+    "successTitle": "ログイン成功",
+    "successMessage": "お帰りなさい！",
+    "errorTitle": "ログイン失敗"
+  },
+  "inbox": {
+    "title": "受信箱",
+    "tasksCount": "{{count}} 件のタスクが整理待ち",
+    "addTaskPlaceholder": "受信箱に新しいタスクを追加...",
+    "addButton": "追加",
+    "unorganizedTasks": "未整理タスク",
+    "emptyTitle": "受信箱は空です",
+    "emptyDescription": "新しいタスクがここに表示されます"
+  },
+  "projects": {
+    "title": "プロジェクト",
+    "noProjects": "プロジェクトが見つかりません",
+    "selectPrompt": "フォルダまたはプロジェクトを選択",
+    "selectDescription": "ここでタスクを表示・管理",
+    "completionPercentage": "{{percentage}}%",
+    "tasksCount": "{{count}} 件のタスク",
+    "projectsCount": "{{count}} 件のプロジェクト",
+    "noTasksInProject": "このプロジェクトにタスクはありません",
+    "noTasksInFolder": "このフォルダにタスクはありません",
+    "status": {
+      "active": "進行中",
+      "onHold": "保留",
+      "dropped": "中止",
+      "completed": "完了"
+    }
+  },
+  "tags": {
+    "title": "タグ",
+    "loading": "読み込み中...",
+    "noTags": "タグが見つかりません",
+    "selectPrompt": "タグを選択して関連タスクとプロジェクトを表示",
+    "tasks": "タスク",
+    "projects": "プロジェクト",
+    "noTasks": "このタグのタスクはありません",
+    "noProjects": "このタグのプロジェクトはありません",
+    "builtIn": "組み込み",
+    "inactive": "非アクティブ"
+  },
+  "flagged": {
+    "title": "フラグ付き",
+    "tasksCount": "{{count}} 件のフラグ付きタスク",
+    "active": "進行中",
+    "completed": "完了",
+    "emptyTitle": "フラグ付きタスクはありません",
+    "emptyDescription": "重要なタスクにフラグを付けてここに表示",
+    "emptyCompleted": "完了したフラグ付きタスクはありません"
+  },
+  "forecast": {
+    "title": "予測",
+    "dateRange": "{{start}} - {{end}}",
+    "today": "今日",
+    "overdue": "期限切れ",
+    "dueToday": "今日が期限",
+    "plannedToday": "今日の予定",
+    "noItems": "項目なし",
+    "taskTypes": {
+      "due": "期限",
+      "planned": "予定",
+      "defer": "利用可能"
+    }
+  },
+  "location": {
+    "title": "場所",
+    "searchPlaceholder": "検索...",
+    "selectPrompt": "場所を選択して詳細を表示",
+    "create": "場所を作成",
+    "edit": "場所を編集",
+    "delete": "場所を削除",
+    "deleteConfirm": "\"{{name}}\" を削除してもよろしいですか？この操作は元に戻せません。",
+    "basicInfo": "基本情報",
+    "englishTitle": "英語名",
+    "chineseTitle": "中国語名",
+    "japaneseTitle": "日本語名",
+    "locationType": "場所タイプ",
+    "code": "コード",
+    "abbreviation": "略語",
+    "address": "住所",
+    "relatedItems": "関連項目",
+    "metadata": "メタデータ",
+    "created": "作成日",
+    "updated": "更新日",
+    "parentLocation": "親場所",
+    "details": "詳細",
+    "form": {
+      "type": "タイプ",
+      "typePlaceholder": "タイプを選択",
+      "codePlaceholder": "例：JP",
+      "abbreviationPlaceholder": "例：JPN",
+      "titlePlaceholder": "例：Japan",
+      "titleZhPlaceholder": "例：日本",
+      "titleJaPlaceholder": "例：日本",
+      "addressPlaceholder": "住所",
+      "required": "*"
+    },
+    "inboxTasks": "受信箱タスク"
+  },
+  "review": {
+    "title": "レビュー",
+    "projectsCount": "{{count}} 件のプロジェクトがレビューが必要",
+    "refresh": "更新",
+    "overdueReview": "期限切れレビュー ({{count}})",
+    "dueForReview": "レビュー予定 ({{count}})",
+    "loadingProjects": "プロジェクト読み込み中...",
+    "noProjects": "レビューが必要なプロジェクトはありません",
+    "allUpToDate": "すべてのプロジェクトは最新です！",
+    "checklistTitle": "レビューチェックリスト",
+    "checklist": {
+      "relevant": "すべてのタスクが関連性があり実行可能か確認",
+      "status": "保留または中止が必要な場合はプロジェクト状態を更新",
+      "dates": "期限を確認し、必要に応じて調整",
+      "folder": "プロジェクトが正しいフォルダに整理されているか確認",
+      "markReviewed": "完了したらレビュー済みとしてマーク"
+    },
+    "markReviewed": "レビュー済みにする",
+    "overdue": "期限切れ",
+    "completion": "完了率 {{percentage}}%",
+    "reviewDue": "レビュー期限：{{date}}",
+    "everyDays": "{{days}} 日ごと"
+  },
+  "inspector": {
+    "title": "タスク詳細",
+    "titleLabel": "タイトル",
+    "overdueWarning": "このタスクは期限切れです",
+    "status": {
+      "completed": "完了",
+      "flagged": "フラグ付き",
+      "active": "進行中"
+    },
+    "flag": "フラグ",
+    "project": "プロジェクト",
+    "dates": "日付",
+    "deferDate": "延期（開始日）",
+    "plannedDate": "予定（実行日）",
+    "dueDate": "期限（締切日）",
+    "tags": "タグ",
+    "noTags": "タグが割り当てられていません",
+    "notes": "メモ",
+    "notesPlaceholder": "メモを追加...",
+    "metadata": {
+      "created": "作成日",
+      "modified": "更新日",
+      "type": "タイプ"
+    }
+  },
+  "quickOpen": {
+    "placeholder": "視点、プロジェクト、タグ、タスクを検索...",
+    "noResults": "結果が見つかりません",
+    "navigate": "移動",
+    "select": "選択",
+    "close": "閉じる",
+    "shortcut": "Cmd+K",
+    "types": {
+      "perspective": "視点",
+      "folder": "フォルダ",
+      "project": "プロジェクト",
+      "tag": "タグ",
+      "task": "タスク"
+    }
+  },
+  "taskList": {
+    "empty": "タスクはありません",
+    "overdue": "期限切れ",
+    "dueSoon": "期限間近",
+    "tooltip": "クリックで完了、ダブルクリックで編集"
+  },
+  "sidebar": {
+    "appName": "生産性ツール",
+    "appDescription": "タスク管理",
+    "focusMode": "集中モード",
+    "focusActive": "アクティブ"
+  },
+  "settings": {
+    "title": "設定",
+    "core": {
+      "title": "基本設定",
+      "description": "一般的なアプリ設定",
+      "theme": "テーマ",
+      "language": "言語",
+      "notifications": "通知",
+      "notificationsDescription": "プッシュ通知を有効にする",
+      "themeOptions": {
+        "light": "ライト",
+        "dark": "ダーク",
+        "system": "システム"
+      },
+      "languageOptions": {
+        "zh": "中文",
+        "en": "English",
+        "ja": "日本語"
+      }
+    },
+    "productivity": {
+      "title": "生産性設定",
+      "description": "生産性モジュールの設定",
+      "pomodoroDuration": "ポモドロー時間（分）",
+      "shortBreak": "短い休憩（分）",
+      "longBreak": "長い休憩（分）",
+      "sound": "音声",
+      "soundDescription": "音声通知を有効にする"
+    },
+    "actions": {
+      "reset": "デフォルトに戻す",
+      "save": "変更を保存"
+    },
+    "messages": {
+      "coreSaved": "基本設定を保存しました",
+      "coreError": "基本設定の保存に失敗しました",
+      "coreReset": "基本設定をデフォルトに戻しました",
+      "coreResetError": "基本設定のリセットに失敗しました",
+      "productivitySaved": "生産性設定を保存しました",
+      "productivityError": "生産性設定の保存に失敗しました",
+      "productivityReset": "生産性設定をデフォルトに戻しました",
+      "productivityResetError": "生産性設定のリセットに失敗しました"
+    }
+  }
+}
