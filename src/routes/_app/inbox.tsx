@@ -35,6 +35,8 @@ function InboxPage() {
     setInspectorTask(task)
     setInspectorOpen(true)
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  void handleOpenInspector
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">

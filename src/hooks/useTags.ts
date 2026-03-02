@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import * as api from '@/api/tags'
 
 const TAGS_KEY = 'tags'

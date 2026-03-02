@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Project } from '@/types'
+
 import * as api from '@/api/projects'
 
 const PROJECTS_KEY = 'projects'

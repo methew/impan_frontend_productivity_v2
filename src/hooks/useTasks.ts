@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Task } from '@/types'
+
 import * as api from '@/api/tasks'
 
 const TASKS_KEY = 'tasks'

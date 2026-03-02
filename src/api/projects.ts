@@ -1,7 +1,7 @@
 import apiClient from '@/lib/axios'
 import type { 
   Project, 
-  ProjectTreeNode, 
+
   ProjectStatistics,
   PaginatedResponse 
 } from '@/types'

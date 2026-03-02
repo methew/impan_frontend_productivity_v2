@@ -6,8 +6,7 @@ import {
   getAccessToken, 
   clearTokens, 
   logoutApi, 
-  getRefreshToken,
-  type TokenData 
+  getRefreshToken
 } from '@/lib/auth'
 
 export interface User {

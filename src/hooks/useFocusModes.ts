@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { FocusMode } from '@/types'
+
 import * as api from '@/api/focusModes'
 
 const FOCUS_MODES_KEY = 'focus-modes'

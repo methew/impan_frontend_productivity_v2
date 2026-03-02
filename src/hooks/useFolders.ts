@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Folder } from '@/types'
+
 import * as api from '@/api/folders'
 
 const FOLDERS_KEY = 'folders'

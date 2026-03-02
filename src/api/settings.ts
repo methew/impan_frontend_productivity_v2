@@ -2,7 +2,7 @@ import apiClient from '@/lib/axios'
 import type { 
   UserSettings, 
   SettingsResponse, 
-  UpdateSettingsRequest,
+
   CoreSettings,
   AccountingSettings,
   LearningSettings,

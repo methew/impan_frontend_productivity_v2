@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Perspective } from '@/types'
+
 import * as api from '@/api/perspectives'
 
 const PERSPECTIVES_KEY = 'perspectives'
