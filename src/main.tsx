@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { Toaster } from 'sonner'
+import { Loader2 } from 'lucide-react'
 import './index.css'
 import './i18n'
 
@@ -72,6 +73,15 @@ const queryClient = new QueryClient({
   },
 })
 
+// Route loading component
+function RouteLoading() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <Loader2 className="size-8 animate-spin text-primary" />
+    </div>
+  )
+}
+
 // Create a new router instance
 const router = createRouter({
   routeTree,
@@ -83,6 +93,9 @@ const router = createRouter({
   },
   defaultPreload: 'intent',
   defaultPreloadStaleTime: 0,
+  defaultPendingMs: 200,
+  defaultPendingMinMs: 500,
+  defaultPendingComponent: RouteLoading,
 })
 
 // Register the router instance for type safety
