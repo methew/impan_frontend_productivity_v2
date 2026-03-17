@@ -25,7 +25,6 @@ export function ProjectSelect({
   inboxLabel,
 }: ProjectSelectProps) {
   const { t } = useTranslation()
-  const effectivePlaceholder = placeholder || t('dialog.newAction.projectPlaceholder')
   const effectiveInboxLabel = inboxLabel || t('nav.inbox')
   
   // 转换为 SearchableSelect 选项

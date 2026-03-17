@@ -119,6 +119,7 @@ function DraggableTreeItem({
   renderItemCount,
   getItemClassName,
 }: TreeItemProps) {
+  const { t } = useTranslation()
   const [isDragMode, setIsDragMode] = useState(false)
   
   const {

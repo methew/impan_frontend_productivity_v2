@@ -172,6 +172,7 @@ interface PerspectiveTabProps {
 }
 
 function PerspectiveTab({ perspective, isActive }: PerspectiveTabProps) {
+  const { t } = useTranslation()
   const Icon = perspective.icon
 
   return (

@@ -27,24 +27,25 @@ function saveSettingsToStorage(settings: UserSettings) {
   }
 }
 
-// Default settings
-const defaultSettings: Partial<UserSettings> = {
-  default_perspective: 'inbox',
-  today_start_hour: 0,
-  week_start_day: 0, // Sunday
-  default_review_interval: 7,
-  show_completed_items: false,
-  show_dropped_items: false,
-  default_project_type: 'parallel',
-  task_default_duration: 30,
-  morning_start_time: '06:00',
-  evening_start_time: '18:00',
-}
+// Default settings (reserved for future use)
+// const defaultSettings: Partial<UserSettings> = {
+//   default_perspective: 'inbox',
+//   today_start_hour: 0,
+//   week_start_day: 0, // Sunday
+//   default_review_interval: 7,
+//   show_completed_items: false,
+//   show_dropped_items: false,
+//   default_project_type: 'parallel',
+//   task_default_duration: 30,
+//   morning_start_time: '06:00',
+//   evening_start_time: '18:00',
+// }
 
 // ===== Queries =====
 
 export function useSettings(options?: Omit<UseQueryOptions<UserSettings, Error>, 'queryKey' | 'queryFn'>) {
-  const queryClient = useQueryClient()
+  // queryClient reserved for future use (e.g., optimistic updates)
+  useQueryClient() // call to satisfy import, result not used currently
 
   const query = useQuery({
     queryKey: QUERY_KEY,

@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+// import { useNavigate } from '@tanstack/react-router'  // reserved for future use
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
@@ -55,7 +56,7 @@ const defaultFormValues: Partial<UserSettings> = {
 function SettingsPage() {
   usePageMeta({ titleKey: 'settings.title', descriptionKey: 'meta.settings.description' })
   const { t } = useTranslation()
-  const navigate = useNavigate()
+
   const { settings, isLoading } = useSettings()
   const updateSettings = useUpdateSettings()
   

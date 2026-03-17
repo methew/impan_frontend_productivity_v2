@@ -24,7 +24,6 @@ export function FolderSelect({
   noneLabel,
 }: FolderSelectProps) {
   const { t } = useTranslation()
-  const effectivePlaceholder = placeholder || t('projects.folderLabel')
   const effectiveNoneLabel = noneLabel || t('common.none')
   
   // 转换为 SearchableSelect 选项
