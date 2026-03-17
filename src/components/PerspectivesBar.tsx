@@ -26,10 +26,11 @@ import {
 } from '@/packages/ui/components/dropdown-menu'
 
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 
 interface PerspectiveItem {
   id: string
-  label: string
+  labelKey: string
   icon: React.ElementType
   to: string
   color: string
@@ -37,13 +38,13 @@ interface PerspectiveItem {
 }
 
 const PERSPECTIVES: PerspectiveItem[] = [
-  { id: 'inbox', label: '收件箱', icon: Inbox, to: '/inbox', color: '#6366f1' },
-  { id: 'projects', label: '项目', icon: FolderKanban, to: '/projects', color: '#8b5cf6' },
-  { id: 'tags', label: '标签', icon: Tags, to: '/tags', color: '#ec4899' },
-  { id: 'forecast', label: '预测', icon: Calendar, to: '/forecast', color: '#10b981' },
-  { id: 'flagged', label: '已标记', icon: Flag, to: '/flagged', color: '#f59e0b' },
-  { id: 'review', label: '回顾', icon: RefreshCw, to: '/review', color: '#8b5cf6' },
-  { id: 'completed', label: '已完成', icon: CheckCircle2, to: '/completed', color: '#10b981' },
+  { id: 'inbox', labelKey: 'nav.inbox', icon: Inbox, to: '/inbox', color: '#6366f1' },
+  { id: 'projects', labelKey: 'nav.projects', icon: FolderKanban, to: '/projects', color: '#8b5cf6' },
+  { id: 'tags', labelKey: 'nav.tags', icon: Tags, to: '/tags', color: '#ec4899' },
+  { id: 'forecast', labelKey: 'nav.forecast', icon: Calendar, to: '/forecast', color: '#10b981' },
+  { id: 'flagged', labelKey: 'nav.flagged', icon: Flag, to: '/flagged', color: '#f59e0b' },
+  { id: 'review', labelKey: 'nav.review', icon: RefreshCw, to: '/review', color: '#8b5cf6' },
+  { id: 'completed', labelKey: 'nav.completed', icon: CheckCircle2, to: '/completed', color: '#10b981' },
 ]
 
 interface PerspectivesBarProps {
@@ -52,6 +53,7 @@ interface PerspectivesBarProps {
 }
 
 export function PerspectivesBar({ className, isAuthenticated = false }: PerspectivesBarProps) {
+  const { t } = useTranslation()
   const routerState = useRouterState()
   const navigate = useNavigate()
   const currentPath = routerState.location.pathname
@@ -59,7 +61,7 @@ export function PerspectivesBar({ className, isAuthenticated = false }: Perspect
 
   const handleLogout = () => {
     clearTokens()
-    toast.success('已退出登录')
+    toast.success(t('auth.logoutSuccess'))
     navigate({ to: '/login' })
   }
 
@@ -70,7 +72,7 @@ export function PerspectivesBar({ className, isAuthenticated = false }: Perspect
       // Use email prefix as name
       return userInfo.email.split('@')[0]
     }
-    return '用户'
+    return t('auth.defaultUsername')
   }
 
   // Get avatar initials
@@ -84,7 +86,7 @@ export function PerspectivesBar({ className, isAuthenticated = false }: Perspect
       {/* Header */}
       <div className="p-4 border-b">
         <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          透视
+          {t('common.perspectives')}
         </h2>
       </div>
 
@@ -102,11 +104,19 @@ export function PerspectivesBar({ className, isAuthenticated = false }: Perspect
       {/* Footer - User Info & Settings (only for authenticated users) */}
       {isAuthenticated && (
         <div className="p-2 border-t space-y-1">
-          {/* Perspective Settings */}
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-accent transition-colors">
+          {/* Settings */}
+          <Link
+            to="/settings"
+            className={cn(
+              "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+              currentPath === '/settings'
+                ? "bg-primary/10 text-primary shadow-sm" 
+                : "text-muted-foreground hover:bg-accent hover:text-foreground"
+            )}
+          >
             <Settings className="h-4 w-4" />
-            <span>透视设置</span>
-          </button>
+            <span>{t('nav.settings')}</span>
+          </Link>
 
           {/* User Menu */}
           <DropdownMenu>
@@ -146,7 +156,7 @@ export function PerspectivesBar({ className, isAuthenticated = false }: Perspect
                 className="text-red-600 focus:text-red-600"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                退出登录
+                {t('auth.logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -183,7 +193,7 @@ function PerspectiveTab({ perspective, isActive }: PerspectiveTabProps) {
       >
         <Icon className="h-4 w-4" />
       </div>
-      <span className="flex-1">{perspective.label}</span>
+      <span className="flex-1">{t(perspective.labelKey)}</span>
       {perspective.badge !== undefined && perspective.badge > 0 && (
         <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
           {perspective.badge}

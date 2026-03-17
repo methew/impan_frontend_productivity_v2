@@ -36,6 +36,7 @@ import { Calendar as CalendarComponent } from '@/packages/ui/components/calendar
 import { format, parseISO } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
+import { useTranslation } from 'react-i18next'
 import type { Task, Project, Folder as FolderType, Tag, ProjectType } from '@/types'
 
 // ============================================================================
@@ -102,12 +103,14 @@ export function Inspector({
 
 
 
+  const { t } = useTranslation()
+
   // Get item type label
   const getTypeLabel = () => {
     switch (type) {
-      case 'task': return '动作'
-      case 'project': return '项目'
-      case 'folder': return '文件夹'
+      case 'task': return t('inspector.type.task')
+      case 'project': return t('inspector.type.project')
+      case 'folder': return t('inspector.type.folder')
       default: return ''
     }
   }
@@ -144,20 +147,20 @@ export function Inspector({
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto">
               {/* Title/Name Section */}
-              <InspectorSection title={isFolder(item) ? '名称' : '标题'} defaultOpen>
+              <InspectorSection title={isFolder(item) ? t('inspector.section.name') : t('inspector.section.title')} defaultOpen>
                 {isFolder(item) ? (
                   <Input
                     value={(formData as FolderType).name || ''}
                     onChange={(e) => handleUpdate({ name: e.target.value })}
                     className="text-sm"
-                    placeholder="文件夹名称"
+                    placeholder={t('inspector.placeholder.folderName')}
                   />
                 ) : (
                   <Textarea
                     value={(formData as Task | Project).title || ''}
                     onChange={(e) => handleUpdate({ title: e.target.value })}
                     className="min-h-[60px] resize-none text-sm"
-                    placeholder={isTask(item) ? '动作标题' : '项目标题'}
+                    placeholder={isTask(item) ? t('inspector.placeholder.actionTitle') : t('inspector.placeholder.projectTitle')}
                   />
                 )}
               </InspectorSection>
@@ -165,16 +168,16 @@ export function Inspector({
               {/* Folder-specific fields */}
               {isFolder(item) && (
                 <>
-                  <InspectorSection title="简称" defaultOpen={false}>
+                  <InspectorSection title={t('inspector.section.shortTitle')} defaultOpen={false}>
                     <Input
                       value={(formData as FolderType).abbreviation || ''}
                       onChange={(e) => handleUpdate({ abbreviation: e.target.value })}
                       className="text-sm"
-                      placeholder="简称"
+                      placeholder={t('inspector.placeholder.shortTitle')}
                     />
                   </InspectorSection>
 
-                  <InspectorSection title="状态" defaultOpen>
+                  <InspectorSection title={t('inspector.section.status')} defaultOpen>
                     <Select
                       value={(formData as FolderType).status || 'active'}
                       onValueChange={(value) => handleUpdate({ status: value as any })}
@@ -183,13 +186,13 @@ export function Inspector({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="active">活跃</SelectItem>
-                        <SelectItem value="dropped">已丢弃</SelectItem>
+                        <SelectItem value="active">{t('status.active')}</SelectItem>
+                        <SelectItem value="dropped">{t('projects.status.dropped')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </InspectorSection>
 
-                  <InspectorSection title="父文件夹" defaultOpen={false}>
+                  <InspectorSection title={t('inspector.section.parentFolder')} defaultOpen={false}>
                     <Select
                       value={(formData as FolderType).parent || '__none__'}
                       onValueChange={(value) => handleUpdate({ parent: value === '__none__' ? undefined : value })}
@@ -373,7 +376,7 @@ export function Inspector({
                   </InspectorSection>
 
                   {/* Tags Section */}
-                  <InspectorSection title="标签" defaultOpen>
+                  <InspectorSection title={t('inspector.section.tags')} defaultOpen>
                     <TagSelector
                       selectedTags={(item as Task).tags || []}
                       availableTags={tags}
@@ -478,7 +481,7 @@ export function Inspector({
                   )}
 
                   {/* Repeat Section */}
-                  <InspectorSection title="重复" defaultOpen={false}>
+                  <InspectorSection title={t('inspector.section.repetition')} defaultOpen={false}>
                     <div className="flex items-center justify-center h-16 border-2 border-dashed rounded-lg text-muted-foreground text-sm">
                       <Repeat className="h-4 w-4 mr-2" />
                       添加重复规则
@@ -488,7 +491,7 @@ export function Inspector({
               )}
 
               {/* Note Section (common) */}
-              <InspectorSection title="备注" defaultOpen={false}>
+              <InspectorSection title={t('inspector.section.notes')} defaultOpen={false}>
                 <Textarea
                   value={(formData as any).note || ''}
                   onChange={(e) => handleUpdate({ note: e.target.value })}
@@ -498,7 +501,7 @@ export function Inspector({
               </InspectorSection>
 
               {/* Attachments Section (common) */}
-              <InspectorSection title="附件" defaultOpen={false}>
+              <InspectorSection title={t('inspector.section.attachments')} defaultOpen={false}>
                 <div className="flex items-center justify-center h-16 border-2 border-dashed rounded-lg text-muted-foreground text-sm hover:border-primary/50 hover:bg-muted/50 transition-colors cursor-pointer">
                   <Paperclip className="h-4 w-4 mr-2" />
                   点击添加附件

@@ -5,6 +5,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { Toaster } from 'sonner'
 import { routeTree } from './routeTree.gen'
 import './index.css'
+import './i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {

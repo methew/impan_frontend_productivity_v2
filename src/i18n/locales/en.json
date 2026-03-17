@@ -1,0 +1,359 @@
+{
+  "app": {
+    "name": "Productivity",
+    "subtitle": "Efficiently manage your projects and tasks"
+  },
+  "meta": {
+    "myDay": {
+      "description": "View and manage your tasks for today, focus on completing what matters most"
+    },
+    "inbox": {
+      "description": "Quickly capture and organize your tasks, collect all your ideas in one place"
+    },
+    "projects": {
+      "description": "Organize and manage your projects, track progress and completion"
+    },
+    "tags": {
+      "description": "Organize tasks by context through tags, quickly find related items"
+    },
+    "forecast": {
+      "description": "View upcoming due tasks and overdue items, plan your time effectively"
+    },
+    "review": {
+      "description": "Regularly review project progress to ensure everything stays on track"
+    },
+    "flagged": {
+      "description": "View all important flagged tasks, prioritize key items"
+    },
+    "completed": {
+      "description": "View your completed task history, track your achievements"
+    },
+    "settings": {
+      "description": "Customize application settings and configure personal preferences"
+    },
+    "login": {
+      "description": "Sign in to manage your tasks and projects"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "inbox": "Inbox",
+    "projects": "Projects",
+    "tags": "Tags",
+    "forecast": "Forecast",
+    "review": "Review",
+    "flagged": "Flagged",
+    "completed": "Completed",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "add": "Add",
+    "remove": "Remove",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "loading": "Loading...",
+    "noData": "No data available",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info",
+    "optional": "Optional",
+    "required": "Required",
+    "all": "All",
+    "none": "None",
+    "more": "More",
+    "less": "Less",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "items": "items",
+    "noneFolder": "No folder",
+    "dragTooltip": "Drag to reorder",
+    "cannotDropHere": "Cannot drop here",
+    "perspectives": "Perspectives",
+    "perspectiveSettings": "Perspective Settings",
+    "newAction": "New Action",
+    "createAction": "Create Action",
+    "quickAdd": "Quick Add",
+    "dropToCreate": "Drop here to create folder",
+    "noFolder": "None",
+    "minutes": "{{count}} min",
+    "hours": "{{count}} hr",
+    "hoursMinutes": "{{hours}} hr {{mins}} min"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loggingIn": "Logging in...",
+    "loginSuccess": "Login successful",
+    "loginFailed": "Login failed",
+    "welcomeBack": "Welcome back!",
+    "enterCredentials": "Please enter email and password",
+    "subtitle": "Sign in to manage your tasks",
+    "appTitle": "To Do",
+    "logoutSuccess": "Logged out",
+    "defaultUsername": "User",
+    "logout": "Logout"
+  },
+  "myDay": {
+    "title": "My Day",
+    "addTask": "Add a task",
+    "taskAdded": "Added to My Day",
+    "focusYourDay": "Focus on your day",
+    "focusDescription": "Add some tasks to plan your day. Check them off when done!",
+    "completed": "Completed",
+    "taskCount": "tasks"
+  },
+  "inbox": {
+    "title": "Inbox",
+    "addAction": "Add inbox action",
+    "actionAdded": "Action added",
+    "addFailed": "Failed to add",
+    "inbox": "Inbox"
+  },
+  "completed": {
+    "title": "Completed",
+    "taskCount": "completed tasks",
+    "today": "Today",
+    "restore": "Restore",
+    "noTasks": "No completed tasks",
+    "noTasksDescription": "Completed tasks will appear here"
+  },
+  "flagged": {
+    "title": "Important",
+    "taskCount": "important tasks",
+    "noTasks": "No important tasks",
+    "noTasksDescription": "Flag some tasks as important and they will appear here"
+  },
+  "forecast": {
+    "title": "Forecast",
+    "overdue": "Overdue"
+  },
+  "review": {
+    "title": "Review",
+    "projectsNeedReview": "projects need review",
+    "needsReview": "Needs Review",
+    "reviewed": "Reviewed",
+    "noProjects": "No projects to review",
+    "noProjectsDescription": "Review projects regularly to ensure they're on track",
+    "reviewInterval": "day review cycle",
+    "lastReviewed": "Last reviewed",
+    "review": "Review"
+  },
+  "tags": {
+    "title": "Tags",
+    "subtitle": "Organize tasks by context",
+    "newTag": "New Tag",
+    "moreTasks": "{{count}} more tasks..."
+  },
+  "projects": {
+    "title": "Projects",
+    "selectView": "Select a project or folder",
+    "selectViewDescription": "Select a project or folder from the left to view details",
+    "folderNotExist": "Folder does not exist",
+    "projectNotExist": "Project does not exist",
+    "projectCount": "projects",
+    "view": "View",
+    "available": "Available",
+    "remaining": "Remaining",
+    "all": "All",
+    "newProject": "New Project",
+    "newFolder": "New Folder",
+    "titleLabel": "Title",
+    "nameLabel": "Name",
+    "typeLabel": "Type",
+    "folderLabel": "Folder (Optional)",
+    "parentFolderLabel": "Parent Folder (Optional)",
+    "parallel": "Parallel",
+    "sequential": "Sequential",
+    "singleAction": "Single Action",
+    "parallelProject": "Parallel Project",
+    "sequentialProject": "Sequential Project",
+    "singleActionList": "Single Action List",
+    "action": "Action",
+    "created": "Created",
+    "createFailed": "Create failed",
+    "updated": "Updated",
+    "updateFailed": "Update failed",
+    "folderUpdated": "Folder updated",
+    "folderUpdateFailed": "Update failed",
+    "collapseFolder": "Collapse folder",
+    "expandFolder": "Expand folder",
+    "cannotDropFolderIntoProject": "Cannot drop folder into project",
+    "addNewAction": "Add new action...",
+    "status": {
+      "completed": "Completed",
+      "dropped": "Dropped"
+    },
+    "tooltip": {
+      "completed": "Completed (click to restore)",
+      "dropped": "Dropped (click to restore)",
+      "actionGroupComplete": "Action Group - click to complete",
+      "completeOrDrop": "Click to complete, Alt+click to drop"
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "minLength": "Minimum {{count}} characters required",
+    "maxLength": "Maximum {{count}} characters allowed",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "message": {
+    "createSuccess": "Created successfully",
+    "updateSuccess": "Updated successfully",
+    "deleteSuccess": "Deleted successfully",
+    "deleteConfirm": "Are you sure you want to delete? This action cannot be undone.",
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?",
+    "networkError": "Network error, please try again later",
+    "serverError": "Server error, please try again later"
+  },
+  "inspector": {
+    "type": {
+      "task": "Action",
+      "project": "Project",
+      "folder": "Folder"
+    },
+    "section": {
+      "name": "Name",
+      "title": "Title",
+      "shortTitle": "Short Title",
+      "status": "Status",
+      "parentFolder": "Parent Folder",
+      "tags": "Tags",
+      "dates": "Dates",
+      "repetition": "Repetition",
+      "notes": "Notes",
+      "attachments": "Attachments"
+    },
+    "placeholder": {
+      "folderName": "Folder name",
+      "actionTitle": "Action title",
+      "projectTitle": "Project title",
+      "shortTitle": "Short title"
+    },
+    "date": {
+      "deferTo": "Defer to",
+      "deferDescription": "Item unavailable until this date",
+      "due": "Due date",
+      "dueDescription": "Must be completed by this date"
+    }
+  },
+  "status": {
+    "active": "Active",
+    "onHold": "On Hold"
+  },
+  "date": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday"
+  },
+  "projectType": {
+    "sequential": "Sequential",
+    "singleAction": "Single Action"
+  },
+  "task": {
+    "created": "Action created"
+  },
+  "dialog": {
+    "newAction": {
+      "title": "New Action",
+      "actionTitleLabel": "Title",
+      "actionTitlePlaceholder": "Action title",
+      "projectLabel": "Project (Optional)",
+      "projectPlaceholder": "Select project...",
+      "parentLabel": "Parent Action (Optional)",
+      "noParent": "None (Top-level)",
+      "actionGroupTypeLabel": "Action Group Type",
+      "typeLabel": "Type",
+      "typeRegular": "Regular Action",
+      "typeActionGroup": "Action Group",
+      "actionGroupHint": "Action groups can contain sub-actions. All sub-actions must be completed before the parent can be completed",
+      "parentHint": "Select an action group as parent to make this a sub-action",
+      "sequentialGroup": "[Seq]",
+      "parallelGroup": "[Par]",
+      "markLabel": "Marks",
+      "important": "! Important",
+      "urgent": "* Urgent",
+      "dueDate": "Due Date",
+      "deferDate": "Defer To"
+    }
+  },
+  "toolbar": {
+    "toggleSidebar": "Show/Hide Sidebar",
+    "itemCount": "{{count}} items",
+    "searchPlaceholder": "Search...",
+    "newAction": "New Action",
+    "showAvailable": "Show Available",
+    "showRemaining": "Show Remaining",
+    "showAll": "Show All",
+    "viewOptions": "View Options...",
+    "flag": "Flag",
+    "complete": "Complete",
+    "share": "Share",
+    "delete": "Delete"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "display": "Display",
+    "taskDefaults": "Task Defaults",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "saveSuccess": "Settings saved successfully",
+    "saveError": "Failed to save settings",
+    "changesDiscarded": "Changes discarded",
+    "unsavedChanges": "You have unsaved changes",
+    "resetToDefaults": "Reset to Defaults",
+    "generalDescription": "Configure general application settings",
+    "displayDescription": "Customize how items are displayed",
+    "taskDefaultsDescription": "Set default values for new tasks and projects",
+    "defaultPerspective": "Default Perspective",
+    "selectPerspective": "Select perspective",
+    "defaultPerspectiveHelp": "The perspective shown when you open the app",
+    "weekStartDay": "Week Starts On",
+    "selectDay": "Select day",
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    },
+    "defaultReviewInterval": "Default Review Interval",
+    "days": "days",
+    "defaultReviewIntervalHelp": "How often projects should be reviewed by default",
+    "showCompletedItems": "Show Completed Items",
+    "showCompletedItemsHelp": "Display completed items in lists by default",
+    "showDroppedItems": "Show Dropped Items",
+    "showDroppedItemsHelp": "Display dropped items in lists by default",
+    "todayStartHour": "Today Start Hour",
+    "todayStartHourHelp": "When the 'Today' perspective starts showing items",
+    "defaultProjectType": "Default Project Type",
+    "defaultProjectTypeHelp": "The default type for new projects",
+    "taskDefaultDuration": "Default Task Duration",
+    "minutes": "minutes",
+    "taskDefaultDurationHelp": "Estimated duration for new tasks",
+    "morningStartTime": "Morning Start Time",
+    "morningStartTimeHelp": "When morning starts for scheduling purposes",
+    "eveningStartTime": "Evening Start Time",
+    "eveningStartTimeHelp": "When evening starts for scheduling purposes"
+  }
+}

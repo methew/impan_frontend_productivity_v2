@@ -1,14 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Checkbox } from '@/packages/ui/components/checkbox'
 import { useFlaggedTasks, useCompleteTask, useUpdateTask } from '@/hooks/useTasks'
 import type { Task } from '@/types'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export const Route = createFileRoute('/flagged')({
   component: FlaggedPage,
 })
 
 function FlaggedPage() {
+  usePageMeta({ titleKey: 'flagged.title', descriptionKey: 'meta.flagged.description' })
+  const { t } = useTranslation()
   const { data: tasks, isLoading } = useFlaggedTasks()
   const completeTask = useCompleteTask()
   const updateTask = useUpdateTask()
@@ -29,15 +33,15 @@ function FlaggedPage() {
       <div className="px-8 pt-8 pb-4">
         <div className="flex items-center gap-3 mb-2">
           <Star className="h-8 w-8 text-[#f59e0b] fill-[#f59e0b]" />
-          <h1 className="text-2xl font-semibold text-gray-900">重要</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">{t('flagged.title')}</h1>
         </div>
-        <p className="text-gray-500 ml-11">{activeTasks.length} 个重要任务</p>
+        <p className="text-gray-500 ml-11">{activeTasks.length} {t('flagged.taskCount')}</p>
       </div>
 
       {/* Task List */}
       <div className="flex-1 overflow-y-auto px-8 pb-8">
         {isLoading ? (
-          <div className="text-center py-8 text-gray-500">加载中...</div>
+          <div className="text-center py-8 text-gray-500">{t('common.loading')}</div>
         ) : (
           <>
             {/* Active Tasks */}
@@ -56,7 +60,7 @@ function FlaggedPage() {
             {completedTasks.length > 0 && (
               <div className="mt-6">
                 <h3 className="text-sm font-medium text-gray-500 mb-3">
-                  已完成 {completedTasks.length}
+                  {t('myDay.completed')} {completedTasks.length}
                 </h3>
                 <div className="space-y-2">
                   {completedTasks.map(task => (
@@ -76,10 +80,10 @@ function FlaggedPage() {
               <div className="text-center py-12">
                 <Star className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  没有重要任务
+                  {t('flagged.noTasks')}
                 </h3>
                 <p className="text-gray-500 max-w-sm mx-auto">
-                  标记一些任务为重要，它们会显示在这里
+                  {t('flagged.noTasksDescription')}
                 </p>
               </div>
             )}

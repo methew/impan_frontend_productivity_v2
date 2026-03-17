@@ -4,6 +4,7 @@ import {
   ChevronRight, Folder as FolderIcon,
   FolderOpen, Flag, Check
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/packages/ui/components/button'
 import { Input } from '@/packages/ui/components/input'
 import {
@@ -29,6 +30,7 @@ import { NewTaskDialog } from '@/components/NewTaskDialog'
 import { DraggableTree, type TreeNode, type DropPosition } from '@/components/DraggableTree'
 import { formatDate, cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import type { Folder, Folder as FolderType, Project, Task } from '@/types'
 
 export const Route = createFileRoute('/projects')({
@@ -48,6 +50,8 @@ interface TreeItem {
 }
 
 export function ProjectsPage() {
+  usePageMeta({ titleKey: 'projects.title', descriptionKey: 'meta.projects.description' })
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const params = useParams({ from: '/projects/$type/$id', shouldThrow: false })
   
@@ -226,7 +230,7 @@ export function ProjectsPage() {
       console.log('Folder view:', { folder, projectsCount: projects.length, tasksCount: tasks.length })
       return {
         type: 'folder' as const,
-        title: folder?.name || '文件夹',
+        title: folder?.name || t('projects.title'),
         folder,
         projects,
         tasks,
@@ -238,7 +242,7 @@ export function ProjectsPage() {
       console.log('Project view:', { project, tasksCount: tasks.length, tasks: tasks.map(t => ({ id: t.id, title: t.title, project: t.project })) })
       return {
         type: 'project' as const,
-        title: project?.title || '项目',
+        title: project?.title || t('projects.title'),
         project,
         tasks,
         projects: [] as Project[],
@@ -275,9 +279,9 @@ export function ProjectsPage() {
         id: editingFolder,
         data: { name: editFolderName.trim() }
       })
-      toast.success('文件夹已更新')
+      toast.success(t('projects.folderUpdated'))
     } catch {
-      toast.error('更新失败')
+      toast.error(t('projects.folderUpdateFailed'))
     }
     setEditingFolder(null)
   }
@@ -323,9 +327,9 @@ export function ProjectsPage() {
 
     if (!activeItem) return
 
-    // 约束检查
+    // Constraint check
     if (activeItem.type === 'folder' && overItem?.type === 'project' && position === 'inside') {
-      toast.error('文件夹不能放入项目下')
+      toast.error(t('projects.cannotDropFolderIntoProject'))
       return
     }
 
@@ -417,7 +421,7 @@ export function ProjectsPage() {
             {/* Expand/Collapse Button */}
             <button
               type="button"
-              aria-label={isExpanded ? "收起文件夹" : "展开文件夹"}
+              aria-label={isExpanded ? t('projects.collapseFolder') : t('projects.expandFolder')}
               onClick={(e) => {
                 // Click arrow = toggle expand only
                 e.stopPropagation()
@@ -526,7 +530,7 @@ export function ProjectsPage() {
       <div className="w-60 border-r bg-card flex flex-col">
         {/* Sidebar Header */}
         <div className="h-10 px-4 border-b flex items-center justify-between">
-          <h2 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground">项目</h2>
+          <h2 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground">{t('nav.projects')}</h2>
         </div>
 
         {/* Unified Tree */}
@@ -567,7 +571,7 @@ export function ProjectsPage() {
             <DropdownMenuTrigger asChild>
               <Button size="sm" className="flex-1 gap-1 h-8 text-xs">
                 <Plus className="h-3.5 w-3.5" />
-                添加
+                {t('common.add')}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-52">
@@ -577,7 +581,7 @@ export function ProjectsPage() {
               >
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-green-500" />
-                  并行项目
+                  {t('projects.parallelProject')}
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -586,7 +590,7 @@ export function ProjectsPage() {
               >
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-blue-500" />
-                  顺序项目
+                  {t('projects.sequentialProject')}
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -595,18 +599,18 @@ export function ProjectsPage() {
               >
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-gray-400" />
-                  单动作列表
+                  {t('projects.singleActionList')}
                 </div>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShowNewFolderDialog(true)} className="text-xs">
                 <FolderIcon className="h-3.5 w-3.5 mr-2" />
-                文件夹
+                {t('projects.newFolder')}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShowNewTaskDialog(true)} className="text-xs">
                 <Check className="h-3.5 w-3.5 mr-2" />
-                动作
+                {t('projects.action')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -619,10 +623,10 @@ export function ProjectsPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setExpandedItems(new Set(folders?.map(f => f.id)))} className="text-xs">
-                展开全部
+                {t('common.expandAll')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setExpandedItems(new Set())} className="text-xs">
-                折叠全部
+                {t('common.collapseAll')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -635,10 +639,10 @@ export function ProjectsPage() {
         <div className="h-10 border-b flex items-center px-4 justify-between bg-card/50 flex-shrink-0">
           <div className="flex items-center gap-2">
             <h2 className="font-semibold text-sm">
-              {viewData?.title || '选择项目或文件夹'}
+              {viewData?.title || t('projects.selectView')}
             </h2>
             <span className="text-xs text-muted-foreground">
-              {viewData?.itemCount || 0} 项
+              {viewData?.itemCount || 0} {t('common.items')}
             </span>
           </div>
 
@@ -650,19 +654,19 @@ export function ProjectsPage() {
                 className="h-7 text-xs"
                 onClick={handleEditClick}
               >
-                编辑
+                {t('common.edit')}
               </Button>
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-7 text-xs">
-                  视图
+                  {t('projects.view')}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="text-xs">可用</DropdownMenuItem>
-                <DropdownMenuItem className="text-xs">剩余</DropdownMenuItem>
-                <DropdownMenuItem className="text-xs">全部</DropdownMenuItem>
+                <DropdownMenuItem className="text-xs">{t('projects.available')}</DropdownMenuItem>
+                <DropdownMenuItem className="text-xs">{t('projects.remaining')}</DropdownMenuItem>
+                <DropdownMenuItem className="text-xs">{t('common.all')}</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -683,7 +687,7 @@ export function ProjectsPage() {
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
               <FolderKanban className="h-12 w-12 opacity-10 mb-3" />
-              <p className="text-sm">选择左侧项目或文件夹查看详情</p>
+              <p className="text-sm">{t('projects.selectViewDescription')}</p>
             </div>
           )}
         </div>
@@ -718,11 +722,11 @@ export function ProjectsPage() {
           }
         }}
         onSave={() => {
-          toast.success('已保存')
+          toast.success(t('common.save'))
         }}
         onConvert={(targetType) => {
           if (!inspectorItem) return
-          toast.info(`转换为 ${targetType} 功能开发中...`)
+          toast.info(`${t('common.create')} ${targetType}...`)
         }}
         projects={allProjects || []}
         folders={folders || []}
@@ -820,6 +824,7 @@ function TreeOutline({
   onSelectProject,
   onSelectTask
 }: TreeOutlineProps) {
+  const { t } = useTranslation()
   const updateTask = useUpdateTask()
   const completeTask = useCompleteTask()
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
@@ -894,14 +899,14 @@ function TreeOutline({
     // Alt/Option + Click = Dropped toggle
     if (e.altKey || e.metaKey) {
       if (task.dropped_at) {
-        // Restore from dropped - 清除 dropped_at
+        // Restore from dropped
         console.log('Restore from dropped:', task.id)
         updateTask.mutate({ 
           id: task.id, 
           data: { dropped_at: null } 
         }, {
-          onSuccess: () => toast.success('已恢复'),
-          onError: (err) => toast.error('恢复失败', { description: err.message })
+          onSuccess: () => toast.success(t('projects.status.dropped') + ' - ' + t('common.success')),
+          onError: (err) => toast.error(t('projects.updateFailed'), { description: err.message })
         })
       } else {
         // Mark as dropped
@@ -910,25 +915,25 @@ function TreeOutline({
           id: task.id, 
           data: { dropped_at: new Date().toISOString() } 
         }, {
-          onSuccess: () => toast.success('已丢弃'),
-          onError: (err) => toast.error('丢弃失败', { description: err.message })
+          onSuccess: () => toast.success(t('projects.status.dropped')),
+          onError: (err) => toast.error(t('projects.updateFailed'), { description: err.message })
         })
       }
     } else {
       // Normal click = Completed toggle
       if (task.completed_at) {
-        // Restore from completed - 清除 completed_at
+        // Restore from completed
         console.log('Restore from completed:', task.id, 'current completed_at:', task.completed_at)
         updateTask.mutate({ 
           id: task.id, 
           data: { completed_at: null } 
         }, {
           onSuccess: () => {
-            toast.success('已取消完成')
+            toast.success(t('projects.status.completed') + ' - ' + t('common.success'))
             console.log('Restore completed successfully')
           },
           onError: (err) => {
-            toast.error('取消完成失败', { description: err.message })
+            toast.error(t('projects.updateFailed'), { description: err.message })
             console.error('Restore failed:', err)
           }
         })
@@ -936,8 +941,8 @@ function TreeOutline({
         // Mark as completed
         console.log('Mark as completed:', task.id)
         completeTask.mutate(task.id, {
-          onSuccess: () => toast.success('已完成'),
-          onError: (err) => toast.error('完成失败', { description: err.message })
+          onSuccess: () => toast.success(t('projects.status.completed')),
+          onError: (err) => toast.error(t('projects.updateFailed'), { description: err.message })
         })
       }
     }
@@ -1121,7 +1126,7 @@ function TreeOutline({
       return (
         <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
           <FolderOpen className="h-12 w-12 opacity-10 mb-3" />
-          <p className="text-sm">文件夹不存在</p>
+          <p className="text-sm">{t('projects.folderNotExist')}</p>
         </div>
       )
     }
@@ -1134,7 +1139,7 @@ function TreeOutline({
           <FolderOpen className="h-5 w-5 text-amber-500" />
           <span className="font-semibold">{viewData.title}</span>
           <span className="text-sm text-muted-foreground">
-            ({folderProjects.length} 个项目)
+            ({folderProjects.length} {t('projects.projectCount')})
           </span>
         </div>
         
@@ -1150,7 +1155,7 @@ function TreeOutline({
       return (
         <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
           <FolderKanban className="h-12 w-12 opacity-10 mb-3" />
-          <p className="text-sm">项目不存在</p>
+          <p className="text-sm">{t('projects.projectNotExist')}</p>
         </div>
       )
     }
@@ -1175,6 +1180,7 @@ interface QuickAddActionProps {
 }
 
 function QuickAddAction({ projectId }: QuickAddActionProps) {
+  const { t } = useTranslation()
   const [title, setTitle] = useState('')
   const createTask = useCreateTask()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -1192,7 +1198,7 @@ function QuickAddAction({ projectId }: QuickAddActionProps) {
       setTitle('')
       inputRef.current?.focus()
     } catch {
-      toast.error('添加失败')
+      toast.error(t('projects.createFailed'))
     }
   }
 
@@ -1205,7 +1211,7 @@ function QuickAddAction({ projectId }: QuickAddActionProps) {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="添加新动作..."
+          placeholder={t('projects.addNewAction')}
           className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground/50"
         />
       </div>
@@ -1225,6 +1231,7 @@ interface StatusCircleProps {
 }
 
 function StatusCircle({ task, isOverdue, isDueSoon, onClick }: StatusCircleProps) {
+  const { t } = useTranslation()
   const isCompleted = !!task.completed_at
   const isDropped = !!task.dropped_at
   const isFlagged = task.flagged
@@ -1265,7 +1272,7 @@ function StatusCircle({ task, isOverdue, isDueSoon, onClick }: StatusCircleProps
         circleColor,
         (isCompleted || isDropped) && fillColor
       )}
-      title={isCompleted ? '已完成 (点击恢复)' : isDropped ? '已丢弃 (点击恢复)' : isActionGroup ? '动作组 - 点击完成' : '点击完成，Alt+点击丢弃'}
+      title={isCompleted ? t('projects.tooltip.completed') : isDropped ? t('projects.tooltip.dropped') : isActionGroup ? t('projects.tooltip.actionGroupComplete') : t('projects.tooltip.completeOrDrop')}
     >
       {/* Completed: Checkmark */}
       {isCompleted && (
@@ -1306,6 +1313,7 @@ interface NewProjectDialogProps {
 }
 
 function NewProjectDialog({ open, onOpenChange, folders, initialType }: NewProjectDialogProps) {
+  const { t } = useTranslation()
   const [title, setTitle] = useState('')
   const [projectType, setProjectType] = useState(initialType)
   const [folderId, setFolderId] = useState('')
@@ -1320,12 +1328,12 @@ function NewProjectDialog({ open, onOpenChange, folders, initialType }: NewProje
         project_type: projectType,
         folder: folderId || undefined,
       })
-      toast.success('项目已创建')
+      toast.success(t('projects.created'))
       onOpenChange(false)
       setTitle('')
       setFolderId('')
     } catch {
-      toast.error('创建失败')
+      toast.error(t('projects.createFailed'))
     }
   }
 
@@ -1333,13 +1341,13 @@ function NewProjectDialog({ open, onOpenChange, folders, initialType }: NewProje
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>新建项目</DialogTitle>
+          <DialogTitle>{t('projects.newProject')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 pt-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">标题</label>
+            <label className="text-sm font-medium">{t('projects.titleLabel')}</label>
             <Input
-              placeholder="项目名称"
+              placeholder={t('projects.titleLabel')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
@@ -1347,7 +1355,7 @@ function NewProjectDialog({ open, onOpenChange, folders, initialType }: NewProje
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">类型</label>
+            <label className="text-sm font-medium">{t('projects.typeLabel')}</label>
             <div className="flex gap-2">
               {(['parallel', 'sequential', 'single_action'] as const).map((type) => (
                 <button
@@ -1360,22 +1368,22 @@ function NewProjectDialog({ open, onOpenChange, folders, initialType }: NewProje
                       : "border-border hover:border-primary/50"
                   )}
                 >
-                  {type === 'parallel' && '并行'}
-                  {type === 'sequential' && '顺序'}
-                  {type === 'single_action' && '单动作'}
+                  {type === 'parallel' && t('projects.parallel')}
+                  {type === 'sequential' && t('projects.sequential')}
+                  {type === 'single_action' && t('projects.singleAction')}
                 </button>
               ))}
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">文件夹（可选）</label>
+            <label className="text-sm font-medium">{t('projects.folderLabel')}</label>
             <select
               value={folderId}
               onChange={(e) => setFolderId(e.target.value)}
               className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
             >
-              <option value="">无</option>
+              <option value="">{t('common.none')}</option>
               {folders.map(folder => (
                 <option key={folder.id} value={folder.id}>{folder.name}</option>
               ))}
@@ -1384,10 +1392,10 @@ function NewProjectDialog({ open, onOpenChange, folders, initialType }: NewProje
 
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              取消
+              {t('common.cancel')}
             </Button>
             <Button onClick={handleSubmit} disabled={!title.trim()}>
-              创建
+              {t('common.create')}
             </Button>
           </div>
         </div>
@@ -1407,6 +1415,7 @@ interface NewFolderDialogProps {
 }
 
 function NewFolderDialog({ open, onOpenChange, folders }: NewFolderDialogProps) {
+  const { t } = useTranslation()
   const [name, setName] = useState('')
   const [parentId, setParentId] = useState('')
   const createFolder = useCreateFolder()
@@ -1419,12 +1428,12 @@ function NewFolderDialog({ open, onOpenChange, folders }: NewFolderDialogProps) 
         name: name.trim(),
         parent: parentId || undefined,
       })
-      toast.success('文件夹已创建')
+      toast.success(t('projects.created'))
       onOpenChange(false)
       setName('')
       setParentId('')
     } catch {
-      toast.error('创建失败')
+      toast.error(t('projects.createFailed'))
     }
   }
 
@@ -1432,13 +1441,13 @@ function NewFolderDialog({ open, onOpenChange, folders }: NewFolderDialogProps) 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>新建文件夹</DialogTitle>
+          <DialogTitle>{t('projects.newFolder')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 pt-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">名称</label>
+            <label className="text-sm font-medium">{t('projects.nameLabel')}</label>
             <Input
-              placeholder="文件夹名称"
+              placeholder={t('projects.nameLabel')}
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoFocus
@@ -1446,13 +1455,13 @@ function NewFolderDialog({ open, onOpenChange, folders }: NewFolderDialogProps) 
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">父文件夹（可选）</label>
+            <label className="text-sm font-medium">{t('projects.parentFolderLabel')}</label>
             <select
               value={parentId}
               onChange={(e) => setParentId(e.target.value)}
               className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
             >
-              <option value="">无</option>
+              <option value="">{t('common.none')}</option>
               {folders.map(folder => (
                 <option key={folder.id} value={folder.id}>{folder.name}</option>
               ))}
@@ -1461,10 +1470,10 @@ function NewFolderDialog({ open, onOpenChange, folders }: NewFolderDialogProps) 
 
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              取消
+              {t('common.cancel')}
             </Button>
             <Button onClick={handleSubmit} disabled={!name.trim()}>
-              创建
+              {t('common.create')}
             </Button>
           </div>
         </div>

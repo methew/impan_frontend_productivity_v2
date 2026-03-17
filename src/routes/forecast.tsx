@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/packages/ui/components/button'
 import { Checkbox } from '@/packages/ui/components/checkbox'
 import { useState } from 'react'
@@ -7,12 +8,15 @@ import { useDueToday, useOverdue, useCompleteTask, useUpdateTask } from '@/hooks
 import { format, addDays, startOfWeek, addWeeks, isSameDay } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import type { Task } from '@/types'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export const Route = createFileRoute('/forecast')({
   component: ForecastPage,
 })
 
 function ForecastPage() {
+  usePageMeta({ titleKey: 'forecast.title', descriptionKey: 'meta.forecast.description' })
+  const { t } = useTranslation()
   const [currentDate, setCurrentDate] = useState(new Date())
   const { data: dueToday } = useDueToday()
   const { data: overdue } = useOverdue()
@@ -46,7 +50,7 @@ function ForecastPage() {
       <div className="px-8 pt-8 pb-4">
         <div className="flex items-center gap-3 mb-4">
           <Calendar className="h-8 w-8 text-[#10b981]" />
-          <h1 className="text-2xl font-semibold text-gray-900">计划内</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">{t('forecast.title')}</h1>
         </div>
         
         {/* Week Navigation */}
@@ -106,7 +110,7 @@ function ForecastPage() {
         {/* Overdue Section */}
         {overdue && overdue.length > 0 && (
           <div className="mt-8">
-            <h3 className="text-sm font-medium text-red-500 mb-3">已逾期</h3>
+            <h3 className="text-sm font-medium text-red-500 mb-3">{t('forecast.overdue')}</h3>
             <div className="space-y-2">
               {overdue.map(task => (
                 <TaskItem 

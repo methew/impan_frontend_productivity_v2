@@ -3,7 +3,9 @@ import { Sun, Plus, CheckCircle2 } from 'lucide-react'
 import { Input } from '@/packages/ui/components/input'
 import { Checkbox } from '@/packages/ui/components/checkbox'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useInbox, useCreateTask, useCompleteTask } from '@/hooks/useTasks'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import { format } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import { toast } from 'sonner'
@@ -14,6 +16,8 @@ export const Route = createFileRoute('/')({
 })
 
 function MyDayPage() {
+  usePageMeta({ titleKey: 'myDay.title', descriptionKey: 'meta.myDay.description' })
+  const { t } = useTranslation()
   const { data: tasks, isLoading } = useInbox()
   const [newTask, setNewTask] = useState('')
   const createTask = useCreateTask()
@@ -45,7 +49,7 @@ function MyDayPage() {
       due_date: new Date().toISOString(),
     })
     setNewTask('')
-    toast.success('已添加到我的一天')
+    toast.success(t('myDay.taskAdded'))
   }
 
   return (
@@ -54,7 +58,7 @@ function MyDayPage() {
       <div className="px-8 pt-8 pb-4">
         <div className="flex items-center gap-3 mb-2">
           <Sun className="h-8 w-8 text-[#2563eb]" />
-          <h1 className="text-2xl font-semibold text-gray-900">我的一天</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">{t('myDay.title')}</h1>
         </div>
         <p className="text-gray-500 ml-11">{dayName}，{dateStr}</p>
       </div>
@@ -64,7 +68,7 @@ function MyDayPage() {
         <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm border border-gray-200 px-4 py-3">
           <Plus className="h-5 w-5 text-[#2563eb]" />
           <Input
-            placeholder="添加任务"
+            placeholder={t('myDay.addTask')}
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAddTask()}
@@ -76,7 +80,7 @@ function MyDayPage() {
       {/* Task List */}
       <div className="flex-1 overflow-y-auto px-8 pb-8">
         {isLoading ? (
-          <div className="text-center py-8 text-gray-500">加载中...</div>
+          <div className="text-center py-8 text-gray-500">{t('common.loading')}</div>
         ) : (
           <>
             {/* Active Tasks */}
@@ -95,7 +99,7 @@ function MyDayPage() {
               <div className="mt-6">
                 <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
-                  已完成 {completedTasks.length}
+                  {t('myDay.completed')} {completedTasks.length}
                 </h3>
                 <div className="space-y-2">
                   {completedTasks.map(task => (
@@ -114,10 +118,10 @@ function MyDayPage() {
               <div className="text-center py-12">
                 <Sun className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  专注于你的一天
+                  {t('myDay.focusYourDay')}
                 </h3>
                 <p className="text-gray-500 max-w-sm mx-auto">
-                  添加一些任务来规划你的一天。完成后记得勾选它们！
+                  {t('myDay.focusDescription')}
                 </p>
               </div>
             )}

@@ -12,8 +12,9 @@ import {
   Clock,
   FolderKanban
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, formatRelativeDate } from '@/lib/utils'
 import type { Tag } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 // ============================================================================
 // Types
@@ -132,6 +133,7 @@ function OutlineRow({
   onComplete,
   onFlag,
 }: OutlineRowProps) {
+  const { t } = useTranslation()
   const hasChildren = item.children && item.children.length > 0
   
   // Calculate status indicators
@@ -242,20 +244,20 @@ function OutlineRow({
                 isDueSoon && 'text-yellow-600'
               )}>
                 <Calendar className="h-3 w-3" />
-                {formatDate(item.due_date)}
+                {formatRelativeDate(item.due_date, t)}
               </span>
             )}
 
             {item.defer_date && !item.due_date && (
               <span className="flex items-center gap-0.5">
                 <Clock className="h-3 w-3" />
-                推迟至 {formatDate(item.defer_date)}
+                {t('inspector.date.deferTo')} {formatRelativeDate(item.defer_date, t)}
               </span>
             )}
 
             {/* Duration */}
             {item.estimated_duration && (
-              <span>{item.estimated_duration}分钟</span>
+              <span>{t('common.minutes', { count: item.estimated_duration })}</span>
             )}
           </div>
         </div>
@@ -412,22 +414,6 @@ function ProjectTypeIcon({ type }: ProjectTypeIconProps) {
 }
 
 // ============================================================================
-// Helpers
-// ============================================================================
 
-function formatDate(date: string | Date): string {
-  const d = new Date(date)
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-
-  if (d.toDateString() === today.toDateString()) return '今天'
-  if (d.toDateString() === tomorrow.toDateString()) return '明天'
-
-  return d.toLocaleDateString('zh-CN', {
-    month: 'short',
-    day: 'numeric',
-  })
-}
 
 export default Outline

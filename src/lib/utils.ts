@@ -11,11 +11,11 @@ export function formatDate(date: string | Date, pattern: string = 'yyyy-MM-dd') 
   return format(new Date(date), pattern, { locale: zhCN })
 }
 
-export function formatRelativeDate(date: string | Date): string {
+export function formatRelativeDate(date: string | Date, t?: (key: string) => string): string {
   const d = new Date(date)
-  if (isToday(d)) return '今天'
-  if (isTomorrow(d)) return '明天'
-  if (isYesterday(d)) return '昨天'
+  if (isToday(d)) return t ? t('date.today') : '今天'
+  if (isTomorrow(d)) return t ? t('date.tomorrow') : '明天'
+  if (isYesterday(d)) return t ? t('date.yesterday') : '昨天'
   return format(d, 'MM月dd日', { locale: zhCN })
 }
 
@@ -37,30 +37,30 @@ export function getQuadrantColor(quadrantId: number): string {
   }
 }
 
-export function getProjectTypeLabel(type: string): string {
+export function getProjectTypeLabel(type: string, t?: (key: string) => string): string {
   switch (type) {
-    case 'sequential': return '顺序'
-    case 'parallel': return '并行'
-    case 'single_action': return '单动作'
+    case 'sequential': return t ? t('projectType.sequential') : '顺序'
+    case 'parallel': return t ? t('projects.parallel') : '并行'
+    case 'single_action': return t ? t('projectType.singleAction') : '单动作'
     default: return type
   }
 }
 
-export function getStatusLabel(status: string): string {
+export function getStatusLabel(status: string, t?: (key: string) => string): string {
   switch (status) {
-    case 'active': return '活跃'
-    case 'on_hold': return '暂停'
-    case 'dropped': return '已丢弃'
-    case 'completed': return '已完成'
+    case 'active': return t ? t('status.active') : '活跃'
+    case 'on_hold': return t ? t('status.onHold') : '暂停'
+    case 'dropped': return t ? t('projects.status.dropped') : '已丢弃'
+    case 'completed': return t ? t('projects.status.completed') : '已完成'
     default: return status
   }
 }
 
-export function formatDuration(minutes?: number): string {
+export function formatDuration(minutes?: number, t?: (key: string, options?: object) => string): string {
   if (!minutes) return ''
-  if (minutes < 60) return `${minutes}分钟`
+  if (minutes < 60) return t ? t('common.minutes', { count: minutes }) : `${minutes}分钟`
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
-  if (mins === 0) return `${hours}小时`
-  return `${hours}小时${mins}分钟`
+  if (mins === 0) return t ? t('common.hours', { count: hours }) : `${hours}小时`
+  return t ? t('common.hoursMinutes', { hours, mins }) : `${hours}小时${mins}分钟`
 }

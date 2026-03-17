@@ -22,6 +22,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { GripVertical, ChevronRight, FolderIcon, FolderOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { Folder, Project } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 // ProjectTypeIcon 组件内联定义，避免循环导入
 function ProjectTypeIcon({ type, className }: { type?: 'sequential' | 'parallel' | 'single_action'; className?: string }) {
@@ -218,7 +219,7 @@ function DraggableTreeItem({
             "opacity-0 group-hover:opacity-100 transition-opacity",
             isDragMode && "opacity-100 bg-primary/10"
           )}
-          title="按住拖拽"
+          title={t('common.dragTooltip')}
         >
           <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
         </button>
@@ -298,6 +299,7 @@ export function DraggableTree({
   renderItemCount,
   getItemClassName,
 }: DraggableTreeProps) {
+  const { t } = useTranslation()
   const [activeId, setActiveId] = useState<string | null>(null)
   const [dropPosition, setDropPosition] = useState<DropPosition>(null)
   const [overId, setOverId] = useState<string | null>(null)
@@ -413,7 +415,7 @@ export function DraggableTree({
 
     // 检查约束
     if (!canDrop(activeNode, overNode, dropPosition)) {
-      toast?.error('不能放置到此位置')
+      toast?.error(t('common.cannotDropHere'))
       return
     }
 

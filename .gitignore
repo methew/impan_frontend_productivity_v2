@@ -1,4 +1,36 @@
+# =============================================================================
+# Dependencies
+# =============================================================================
+node_modules
+.pnp
+.pnp.js
+.pnpm-store/
+package-lock.json
+yarn.lock
+
+# =============================================================================
+# Build Output
+# =============================================================================
+dist
+dist-ssr
+build
+out
+*.tgz
+*.tar.gz
+
+# =============================================================================
+# Environment Variables
+# =============================================================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# =============================================================================
 # Logs
+# =============================================================================
 logs
 *.log
 npm-debug.log*
@@ -6,20 +38,108 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.eslintcache
+.stylelintcache
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# =============================================================================
+# Editor & IDE
+# =============================================================================
+# VS Code
 .vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 !.vscode/extensions.json
+*.code-workspace
+
+# JetBrains
 .idea
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# =============================================================================
+# OS Generated Files
+# =============================================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# =============================================================================
+# Testing
+# =============================================================================
+coverage
+.nyc_output
+*.lcov
+
+# =============================================================================
+# Cache
+# =============================================================================
+.cache
+.parcel-cache
+.rollup.cache
+*.tsbuildinfo
+.vite
+temp
+tmp
+
+# =============================================================================
+# TypeScript
+# =============================================================================
+*.tsbuildinfo
+*.js.map
+*.css.map
+*.d.ts.map
+
+# =============================================================================
+# Misc
+# =============================================================================
+*.local
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
+.history
+.netlify
+.vercel
+
+# =============================================================================
+# Project Specific
+# =============================================================================
+# Route tree auto-generated
+src/routeTree.gen.ts
+
+# Storybook
+storybook-static
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+/cypress/downloads/

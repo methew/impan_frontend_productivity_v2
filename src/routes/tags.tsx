@@ -1,10 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Tags, Plus, Hash } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/packages/ui/components/button'
 import { Card, CardContent } from '@/packages/ui/components/card'
 import { Badge } from '@/packages/ui/components/badge'
 import { Checkbox } from '@/packages/ui/components/checkbox'
 import { useTasksByTag, useCompleteTask } from '@/hooks/useTasks'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 
 export const Route = createFileRoute('/tags')({
@@ -12,6 +14,8 @@ export const Route = createFileRoute('/tags')({
 })
 
 function TagsPage() {
+  usePageMeta({ titleKey: 'tags.title', descriptionKey: 'meta.tags.description' })
+  const { t } = useTranslation()
   const { data: tasksByTag } = useTasksByTag()
 
   return (
@@ -21,15 +25,15 @@ function TagsPage() {
         <div className="flex items-center gap-3">
           <Tags className="h-6 w-6 text-primary" />
           <div>
-            <h1 className="text-xl font-bold">标签</h1>
+            <h1 className="text-xl font-bold">{t('tags.title')}</h1>
             <p className="text-sm text-muted-foreground">
-              按上下文组织任务
+              {t('tags.subtitle')}
             </p>
           </div>
         </div>
         <Button>
           <Plus className="h-4 w-4 mr-1" />
-          新建标签
+          {t('tags.newTag')}
         </Button>
       </div>
 
@@ -46,6 +50,7 @@ function TagsPage() {
 }
 
 function TagCard({ tag, tasks }: { tag: { id: string; name: string; color?: string }; tasks: any[] }) {
+  const { t } = useTranslation()
   const completeTask = useCompleteTask()
 
   return (
@@ -84,7 +89,7 @@ function TagCard({ tag, tasks }: { tag: { id: string; name: string; color?: stri
           ))}
           {tasks.length > 5 && (
             <p className="text-xs text-muted-foreground text-center">
-              还有 {tasks.length - 5} 个任务...
+              {t('tags.moreTasks', { count: tasks.length - 5 })}
             </p>
           )}
         </div>

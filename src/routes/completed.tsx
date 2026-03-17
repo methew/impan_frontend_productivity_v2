@@ -1,17 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CheckCircle2, RotateCcw } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/packages/ui/components/button'
 import { Checkbox } from '@/packages/ui/components/checkbox'
 import { useCompletedToday, useUpdateTask } from '@/hooks/useTasks'
 import { format, parseISO } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import type { Task } from '@/types'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export const Route = createFileRoute('/completed')({
   component: CompletedPage,
 })
 
 function CompletedPage() {
+  usePageMeta({ titleKey: 'completed.title', descriptionKey: 'meta.completed.description' })
+  const { t } = useTranslation()
   const { data: completedTasks, isLoading } = useCompletedToday()
   const updateTask = useUpdateTask()
 
@@ -36,24 +40,24 @@ function CompletedPage() {
       <div className="px-8 pt-8 pb-4">
         <div className="flex items-center gap-3 mb-2">
           <CheckCircle2 className="h-8 w-8 text-[#10b981]" />
-          <h1 className="text-2xl font-semibold text-gray-900">已完成</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">{t('completed.title')}</h1>
         </div>
         <p className="text-gray-500 ml-11">
-          {completedTasks?.length || 0} 个已完成任务
+          {completedTasks?.length || 0} {t('completed.taskCount')}
         </p>
       </div>
 
       {/* Task List */}
       <div className="flex-1 overflow-y-auto px-8 pb-8">
         {isLoading ? (
-          <div className="text-center py-8 text-gray-500">加载中...</div>
+          <div className="text-center py-8 text-gray-500">{t('common.loading')}</div>
         ) : (
           <>
             {Object.entries(grouped).map(([date, tasks]) => (
               <div key={date} className="mb-6">
                 <h3 className="text-sm font-medium text-gray-500 mb-3">
                   {date === format(new Date(), 'yyyy-MM-dd') 
-                    ? '今天' 
+                    ? t('completed.today') 
                     : format(parseISO(date), 'M月d日', { locale: zhCN })
                   }
                 </h3>
@@ -77,7 +81,7 @@ function CompletedPage() {
                         onClick={() => handleUndo(task)}
                       >
                         <RotateCcw className="h-4 w-4 mr-1" />
-                        恢复
+                        {t('completed.restore')}
                       </Button>
                     </div>
                   ))}
@@ -89,10 +93,10 @@ function CompletedPage() {
               <div className="text-center py-12">
                 <CheckCircle2 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  暂无已完成任务
+                  {t('completed.noTasks')}
                 </h3>
                 <p className="text-gray-500 max-w-sm mx-auto">
-                  完成任务后，它们会显示在这里
+                  {t('completed.noTasksDescription')}
                 </p>
               </div>
             )}

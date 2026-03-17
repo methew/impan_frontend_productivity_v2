@@ -1,6 +1,7 @@
 import { createRootRoute, Outlet, useRouterState, useNavigate } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { isAuthenticated } from '@/lib/auth'
 import { PerspectivesBar } from '@/components/PerspectivesBar'
 import { Toolbar } from '@/components/Toolbar'
@@ -13,6 +14,7 @@ export const Route = createRootRoute({
 })
 
 function RootLayout() {
+  const { t } = useTranslation()
   const [isAuth, setIsAuth] = useState<boolean | null>(null)
   const [showSidebar, setShowSidebar] = useState(true)
   const [showNewTaskDialog, setShowNewTaskDialog] = useState(false)
@@ -50,14 +52,15 @@ function RootLayout() {
   // Get perspective name from path
   const getPerspectiveName = () => {
     const names: Record<string, string> = {
-      '/': '主页',
-      '/inbox': '收件箱',
-      '/projects': '项目',
-      '/tags': '标签',
-      '/forecast': '预测',
-      '/review': '回顾',
-      '/flagged': '已标记',
-      '/completed': '已完成',
+      '/': t('nav.home'),
+      '/inbox': t('nav.inbox'),
+      '/projects': t('nav.projects'),
+      '/tags': t('nav.tags'),
+      '/forecast': t('nav.forecast'),
+      '/review': t('nav.review'),
+      '/flagged': t('nav.flagged'),
+      '/completed': t('nav.completed'),
+      '/settings': t('nav.settings'),
     }
     return names[currentPath] || 'OmniFocus'
   }
@@ -66,16 +69,16 @@ function RootLayout() {
   const handleNewAction = () => {
     if (currentPath === '/inbox') {
       // In inbox: create inbox task directly with prompt for quick add
-      const title = prompt('输入新动作标题:')
+      const title = prompt(t('inbox.addAction') + ':')
       if (!title) return
       
       createTask.mutateAsync({
         title,
         task_type: 'inbox',
       }).then(() => {
-        toast.success('动作已添加')
+        toast.success(t('inbox.actionAdded'))
       }).catch(() => {
-        toast.error('添加失败')
+        toast.error(t('inbox.addFailed'))
       })
     } else if (currentPath === '/projects' && currentProjectId) {
       // In projects with selected project: open dialog for project task

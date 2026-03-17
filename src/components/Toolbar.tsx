@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/packages/ui/components/dropdown-menu'
 import { cn } from '@/lib/utils'
+import { useTranslation } from 'react-i18next'
 
 interface ToolbarProps {
   perspectiveName: string
@@ -46,6 +47,7 @@ export function Toolbar({
   showSidebar = true,
   className,
 }: ToolbarProps) {
+  const { t } = useTranslation()
   return (
     <div className={cn(
       "h-14 border-b bg-card flex items-center px-4 gap-3",
@@ -61,7 +63,7 @@ export function Toolbar({
             !showSidebar && "text-muted-foreground"
           )}
           onClick={onToggleSidebar}
-          title="显示/隐藏边栏"
+          title={t('toolbar.toggleSidebar')}
         >
           <Sidebar className="h-5 w-5" />
         </Button>
@@ -69,7 +71,7 @@ export function Toolbar({
         <div className="flex items-baseline gap-2">
           <h1 className="text-lg font-semibold">{perspectiveName}</h1>
           <span className="text-sm text-muted-foreground">
-            {itemCount} 个项目
+            {t('toolbar.itemCount', { count: itemCount })}
           </span>
         </div>
       </div>
@@ -79,7 +81,7 @@ export function Toolbar({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="搜索..."
+            placeholder={t('toolbar.searchPlaceholder')}
             className="pl-9 h-9"
             onChange={(e) => onSearch?.(e.target.value)}
           />
@@ -95,7 +97,7 @@ export function Toolbar({
           onClick={onNewAction}
         >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">新建动作</span>
+          <span className="hidden sm:inline">{t('toolbar.newAction')}</span>
         </Button>
 
         <div className="w-px h-6 bg-border mx-1" />
@@ -110,20 +112,20 @@ export function Toolbar({
           <DropdownMenuContent align="end">
             <DropdownMenuItem>
               <CheckCircle2 className="h-4 w-4 mr-2" />
-              显示可用项目
+              {t('toolbar.showAvailable')}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <RotateCcw className="h-4 w-4 mr-2" />
-              显示剩余项目
+              {t('toolbar.showRemaining')}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Layout className="h-4 w-4 mr-2" />
-              显示全部
+              {t('toolbar.showAll')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Settings className="h-4 w-4 mr-2" />
-              视图选项...
+              {t('toolbar.viewOptions')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -138,20 +140,20 @@ export function Toolbar({
           <DropdownMenuContent align="end">
             <DropdownMenuItem>
               <Flag className="h-4 w-4 mr-2" />
-              标记
+              {t('toolbar.flag')}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <CheckCircle2 className="h-4 w-4 mr-2" />
-              完成
+              {t('toolbar.complete')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Share2 className="h-4 w-4 mr-2" />
-              分享
+              {t('toolbar.share')}
             </DropdownMenuItem>
             <DropdownMenuItem className="text-red-600">
               <Trash2 className="h-4 w-4 mr-2" />
-              删除
+              {t('toolbar.delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

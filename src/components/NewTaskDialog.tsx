@@ -13,6 +13,7 @@ import { Flag } from 'lucide-react'
 import { useProjects } from '@/hooks/useProjects'
 import { useTasks, useCreateTask } from '@/hooks/useTasks'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { ProjectSelect } from './selects'
 import { cn } from '@/lib/utils'
 import type { Task } from '@/types'
@@ -24,6 +25,7 @@ interface NewTaskDialogProps {
 }
 
 export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskDialogProps) {
+  const { t } = useTranslation()
   const [title, setTitle] = useState('')
   const [projectId, setProjectId] = useState<string | undefined>(defaultProjectId)
   const [parentId, setParentId] = useState<string>('')
@@ -76,7 +78,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
         due_date: dueDate || undefined,
         defer_date: deferDate || undefined,
       })
-      toast.success('动作已创建')
+      toast.success(t('task.created'))
       onOpenChange(false)
       // Reset form
       setTitle('')
@@ -90,7 +92,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
       setDueDate('')
       setDeferDate('')
     } catch (error: any) {
-      toast.error('创建失败', { description: error.message })
+      toast.error(t('projects.createFailed'), { description: error.message })
     }
   }
 
@@ -98,13 +100,13 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>新建动作</DialogTitle>
+          <DialogTitle>{t('dialog.newAction.title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 pt-4">
           <div className="space-y-2">
-            <Label>标题</Label>
+            <Label>{t('dialog.newAction.actionTitleLabel')}</Label>
             <Input
-              placeholder="动作标题"
+              placeholder={t('dialog.newAction.actionTitlePlaceholder')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
@@ -118,7 +120,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
           </div>
 
           <div className="space-y-2">
-            <Label>项目（可选）</Label>
+            <Label>{t('dialog.newAction.projectLabel')}</Label>
             <ProjectSelect
               value={projectId}
               onValueChange={(value) => {
@@ -126,37 +128,37 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                 setParentId('') // 切换项目时重置父动作
               }}
               projects={projects || []}
-              placeholder="选择项目..."
+              placeholder={t('dialog.newAction.projectPlaceholder')}
               showInbox
-              inboxLabel="收件箱"
+              inboxLabel={t('nav.inbox')}
             />
           </div>
 
           {/* 上级动作（父级） */}
           {filteredParents.length > 0 && (
             <div className="space-y-2">
-              <Label>上级动作（可选）</Label>
+              <Label>{t('dialog.newAction.parentLabel')}</Label>
               <select
                 value={parentId}
                 onChange={(e) => setParentId(e.target.value)}
                 className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
               >
-                <option value="">无（顶级动作）</option>
+                <option value="">{t('dialog.newAction.noParent')}</option>
                 {filteredParents.map((task: Task) => (
                   <option key={task.id} value={task.id}>
-                    {task.action_group_type === 'sequential' ? '【顺序】' : '【并行】'} {task.title}
+                    {task.action_group_type === 'sequential' ? t('dialog.newAction.sequentialGroup') : t('dialog.newAction.parallelGroup')} {task.title}
                   </option>
                 ))}
               </select>
               <p className="text-xs text-muted-foreground">
-                选择动作组作为上级，将此动作作为子动作
+                {t('dialog.newAction.parentHint')}
               </p>
             </div>
           )}
 
           {/* 任务类型 */}
           <div className="space-y-2">
-            <Label>类型</Label>
+            <Label>{t('dialog.newAction.typeLabel')}</Label>
             <div className="flex gap-2">
               <button
                 type="button"
@@ -168,7 +170,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                     : "border-border hover:border-primary/50"
                 )}
               >
-                普通动作
+                {t('dialog.newAction.typeRegular')}
               </button>
               <button
                 type="button"
@@ -180,7 +182,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                     : "border-border hover:border-purple-300"
                 )}
               >
-                动作组
+                {t('dialog.newAction.typeActionGroup')}
               </button>
             </div>
           </div>
@@ -188,7 +190,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
           {/* Action Group 类型 */}
           {taskType === 'action_group' && (
             <div className="space-y-2">
-              <Label>动作组类型</Label>
+              <Label>{t('dialog.newAction.actionGroupTypeLabel')}</Label>
               <div className="flex gap-2">
                 <button
                   type="button"
@@ -206,7 +208,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                     </div>
-                    并行
+                    {t('projects.parallel')}
                   </div>
                 </button>
                 <button
@@ -225,19 +227,19 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-300" />
                     </div>
-                    顺序
+                    {t('projects.sequential')}
                   </div>
                 </button>
               </div>
               <p className="text-xs text-muted-foreground">
-                动作组可以包含子动作，必须完成所有子动作后才能完成父动作
+                {t('dialog.newAction.actionGroupHint')}
               </p>
             </div>
           )}
 
           {/* 标记 */}
           <div className="space-y-3">
-            <Label>标记</Label>
+            <Label>{t('dialog.newAction.markLabel')}</Label>
             <div className="flex items-center gap-6">
               {/* Flagged */}
               <div className="flex items-center gap-2">
@@ -260,7 +262,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                   onCheckedChange={setIsImportant}
                 />
                 <span className={cn("text-sm font-bold", isImportant ? "text-red-600" : "text-muted-foreground")}>
-                  ! 重要
+                  {t('dialog.newAction.important')}
                 </span>
               </div>
 
@@ -271,7 +273,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                   onCheckedChange={setIsUrgent}
                 />
                 <span className={cn("text-sm font-bold", isUrgent ? "text-orange-600" : "text-muted-foreground")}>
-                  * 紧急
+                  {t('dialog.newAction.urgent')}
                 </span>
               </div>
             </div>
@@ -280,7 +282,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
           {/* 日期 */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>截止日期</Label>
+              <Label>{t('dialog.newAction.dueDate')}</Label>
               <Input
                 type="datetime-local"
                 value={dueDate}
@@ -289,7 +291,7 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
               />
             </div>
             <div className="space-y-2">
-              <Label>推迟至</Label>
+              <Label>{t('dialog.newAction.deferDate')}</Label>
               <Input
                 type="datetime-local"
                 value={deferDate}
@@ -301,10 +303,10 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
 
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              取消
+              {t('common.cancel')}
             </Button>
             <Button onClick={handleSubmit} disabled={!title.trim()}>
-              创建
+              {t('common.create')}
             </Button>
           </div>
         </div>

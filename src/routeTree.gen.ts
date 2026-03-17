@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TagsRouteImport } from './routes/tags'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LoginRouteImport } from './routes/login'
@@ -23,6 +24,11 @@ import { Route as ProjectsTypeIdRouteImport } from './routes/projects.$type.$id'
 const TagsRoute = TagsRouteImport.update({
   id: '/tags',
   path: '/tags',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReviewRoute = ReviewRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/review': typeof ReviewRoute
+  '/settings': typeof SettingsRoute
   '/tags': typeof TagsRoute
   '/projects/$type/$id': typeof ProjectsTypeIdRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/review': typeof ReviewRoute
+  '/settings': typeof SettingsRoute
   '/tags': typeof TagsRoute
   '/projects/$type/$id': typeof ProjectsTypeIdRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/review': typeof ReviewRoute
+  '/settings': typeof SettingsRoute
   '/tags': typeof TagsRoute
   '/projects/$type/$id': typeof ProjectsTypeIdRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/projects'
     | '/review'
+    | '/settings'
     | '/tags'
     | '/projects/$type/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/projects'
     | '/review'
+    | '/settings'
     | '/tags'
     | '/projects/$type/$id'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/projects'
     | '/review'
+    | '/settings'
     | '/tags'
     | '/projects/$type/$id'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   ReviewRoute: typeof ReviewRoute
+  SettingsRoute: typeof SettingsRoute
   TagsRoute: typeof TagsRoute
 }
 
@@ -166,6 +179,13 @@ declare module '@tanstack/react-router' {
       path: '/tags'
       fullPath: '/tags'
       preLoaderRoute: typeof TagsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/review': {
@@ -255,6 +275,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   ReviewRoute: ReviewRoute,
+  SettingsRoute: SettingsRoute,
   TagsRoute: TagsRoute,
 }
 export const routeTree = rootRouteImport

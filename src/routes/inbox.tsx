@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useInbox, useCreateTask, useCompleteTask, useUpdateTask } from '@/hooks/useTasks'
 import { useProjects } from '@/hooks/useProjects'
 import { Outline, type OutlineItem } from '@/components/Outline'
@@ -7,6 +8,7 @@ import { Inspector, type InspectorItem } from '@/packages/productivity-component
 import { Button } from '@/packages/ui/components/button'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import type { Task } from '@/types'
 
 export const Route = createFileRoute('/inbox')({
@@ -14,6 +16,8 @@ export const Route = createFileRoute('/inbox')({
 })
 
 function InboxPage() {
+  usePageMeta({ titleKey: 'inbox.title', descriptionKey: 'meta.inbox.description' })
+  const { t } = useTranslation()
   const { data: tasks, isLoading } = useInbox()
   const { data: projects } = useProjects()
   const createTask = useCreateTask()
@@ -22,7 +26,7 @@ function InboxPage() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
 
   const handleNewAction = async () => {
-    const title = prompt('输入新动作标题:')
+    const title = prompt(t('inbox.addAction') + ':')
     if (!title) return
     
     try {
@@ -30,9 +34,9 @@ function InboxPage() {
         title,
         task_type: 'inbox',
       })
-      toast.success('动作已添加')
+      toast.success(t('inbox.actionAdded'))
     } catch (error) {
-      toast.error('添加失败')
+      toast.error(t('inbox.addFailed'))
     }
   }
 
@@ -99,7 +103,7 @@ function InboxPage() {
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="text-muted-foreground">加载中...</div>
+        <div className="text-muted-foreground">{t('common.loading')}</div>
       </div>
     )
   }
@@ -114,7 +118,7 @@ function InboxPage() {
           onClick={handleNewAction}
         >
           <Plus className="h-4 w-4 mr-2" />
-          添加收件箱动作
+          {t('inbox.addAction')}
         </Button>
       </div>
 
