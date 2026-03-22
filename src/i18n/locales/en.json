@@ -45,6 +45,7 @@
     "tags": "Tags",
     "forecast": "Forecast",
     "calendar": "Calendar",
+    "outline": "Outline",
     "habits": "Habits",
     "review": "Review",
     "flagged": "Flagged",
@@ -167,6 +168,9 @@
     "day": "Day",
     "today": "Today",
     "more": "more"
+  },
+  "outline": {
+    "title": "Outline"
   },
   "habits": {
     "title": "Habits",

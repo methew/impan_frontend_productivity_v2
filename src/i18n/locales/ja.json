@@ -45,6 +45,7 @@
     "tags": "タグ",
     "forecast": "予定",
     "calendar": "カレンダー",
+    "outline": "アウトライン",
     "habits": "習慣",
     "review": "レビュー",
     "flagged": "重要",
@@ -167,6 +168,9 @@
     "day": "日",
     "today": "今日",
     "more": "さらに"
+  },
+  "outline": {
+    "title": "アウトライン"
   },
   "habits": {
     "title": "習慣",

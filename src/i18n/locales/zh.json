@@ -52,6 +52,7 @@
     "tags": "标签",
     "forecast": "预测",
     "calendar": "日历",
+    "outline": "大纲",
     "habits": "习惯",
     "review": "回顾",
     "flagged": "已标记",
@@ -183,6 +184,9 @@
     "day": "日",
     "today": "今天",
     "more": "更多"
+  },
+  "outline": {
+    "title": "大纲"
   },
   "habits": {
     "title": "习惯",

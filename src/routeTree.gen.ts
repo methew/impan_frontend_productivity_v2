@@ -13,6 +13,7 @@ import { Route as TagsRouteImport } from './routes/tags'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as OutlineRouteImport } from './routes/outline'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as HabitsRouteImport } from './routes/habits'
@@ -42,6 +43,11 @@ const ReviewRoute = ReviewRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutlineRoute = OutlineRouteImport.update({
+  id: '/outline',
+  path: '/outline',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/habits': typeof HabitsRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
+  '/outline': typeof OutlineRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/review': typeof ReviewRoute
   '/settings': typeof SettingsRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/habits': typeof HabitsRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
+  '/outline': typeof OutlineRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/review': typeof ReviewRoute
   '/settings': typeof SettingsRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/habits': typeof HabitsRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
+  '/outline': typeof OutlineRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/review': typeof ReviewRoute
   '/settings': typeof SettingsRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/habits'
     | '/inbox'
     | '/login'
+    | '/outline'
     | '/projects'
     | '/review'
     | '/settings'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/habits'
     | '/inbox'
     | '/login'
+    | '/outline'
     | '/projects'
     | '/review'
     | '/settings'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/habits'
     | '/inbox'
     | '/login'
+    | '/outline'
     | '/projects'
     | '/review'
     | '/settings'
@@ -205,6 +217,7 @@ export interface RootRouteChildren {
   HabitsRoute: typeof HabitsRoute
   InboxRoute: typeof InboxRoute
   LoginRoute: typeof LoginRoute
+  OutlineRoute: typeof OutlineRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   ReviewRoute: typeof ReviewRoute
   SettingsRoute: typeof SettingsRoute
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outline': {
+      id: '/outline'
+      path: '/outline'
+      fullPath: '/outline'
+      preLoaderRoute: typeof OutlineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -336,6 +356,7 @@ const rootRouteChildren: RootRouteChildren = {
   HabitsRoute: HabitsRoute,
   InboxRoute: InboxRoute,
   LoginRoute: LoginRoute,
+  OutlineRoute: OutlineRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   ReviewRoute: ReviewRoute,
   SettingsRoute: SettingsRoute,
