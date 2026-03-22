@@ -28,6 +28,9 @@
     "completed": {
       "description": "查看已完成的任务历史，追踪您的成就"
     },
+    "board": {
+      "description": "通过看板视图管理任务，拖拽实现状态流转"
+    },
     "settings": {
       "description": "自定义应用程序设置，配置个人偏好选项"
     },
@@ -39,6 +42,7 @@
     "home": "主页",
     "inbox": "收件箱",
     "projects": "项目",
+    "board": "看板",
     "tags": "标签",
     "forecast": "预测",
     "review": "回顾",
@@ -159,6 +163,9 @@
     "subtitle": "按上下文组织任务",
     "newTag": "新建标签",
     "moreTasks": "还有 {{count}} 个任务..."
+  },
+  "board": {
+    "title": "看板"
   },
   "projects": {
     "title": "项目",

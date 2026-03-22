@@ -18,6 +18,7 @@ import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as ForecastRouteImport } from './routes/forecast'
 import { Route as FlaggedRouteImport } from './routes/flagged'
 import { Route as CompletedRouteImport } from './routes/completed'
+import { Route as BoardRouteImport } from './routes/board'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsTypeIdRouteImport } from './routes/projects.$type.$id'
 
@@ -66,6 +67,11 @@ const CompletedRoute = CompletedRouteImport.update({
   path: '/completed',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BoardRoute = BoardRouteImport.update({
+  id: '/board',
+  path: '/board',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -79,6 +85,7 @@ const ProjectsTypeIdRoute = ProjectsTypeIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/board': typeof BoardRoute
   '/completed': typeof CompletedRoute
   '/flagged': typeof FlaggedRoute
   '/forecast': typeof ForecastRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/board': typeof BoardRoute
   '/completed': typeof CompletedRoute
   '/flagged': typeof FlaggedRoute
   '/forecast': typeof ForecastRoute
@@ -106,6 +114,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/board': typeof BoardRoute
   '/completed': typeof CompletedRoute
   '/flagged': typeof FlaggedRoute
   '/forecast': typeof ForecastRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/board'
     | '/completed'
     | '/flagged'
     | '/forecast'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/board'
     | '/completed'
     | '/flagged'
     | '/forecast'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/board'
     | '/completed'
     | '/flagged'
     | '/forecast'
@@ -161,6 +173,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BoardRoute: typeof BoardRoute
   CompletedRoute: typeof CompletedRoute
   FlaggedRoute: typeof FlaggedRoute
   ForecastRoute: typeof ForecastRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompletedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/board': {
+      id: '/board'
+      path: '/board'
+      fullPath: '/board'
+      preLoaderRoute: typeof BoardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -268,6 +288,7 @@ const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BoardRoute: BoardRoute,
   CompletedRoute: CompletedRoute,
   FlaggedRoute: FlaggedRoute,
   ForecastRoute: ForecastRoute,

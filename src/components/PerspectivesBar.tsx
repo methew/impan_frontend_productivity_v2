@@ -13,7 +13,8 @@ import {
   CheckCircle2,
   Settings,
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Layout
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getUserInfo, clearTokens } from '@/lib/auth'
@@ -40,6 +41,7 @@ interface PerspectiveItem {
 const PERSPECTIVES: PerspectiveItem[] = [
   { id: 'inbox', labelKey: 'nav.inbox', icon: Inbox, to: '/inbox', color: '#6366f1' },
   { id: 'projects', labelKey: 'nav.projects', icon: FolderKanban, to: '/projects', color: '#8b5cf6' },
+  { id: 'board', labelKey: 'nav.board', icon: Layout, to: '/board', color: '#06b6d4' },
   { id: 'tags', labelKey: 'nav.tags', icon: Tags, to: '/tags', color: '#ec4899' },
   { id: 'forecast', labelKey: 'nav.forecast', icon: Calendar, to: '/forecast', color: '#10b981' },
   { id: 'flagged', labelKey: 'nav.flagged', icon: Flag, to: '/flagged', color: '#f59e0b' },
