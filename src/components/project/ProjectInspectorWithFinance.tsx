@@ -5,8 +5,7 @@
  */
 
 import { useState } from 'react'
-import { DollarSign, Info, Calendar, CheckCircle2 } from 'lucide-react'
-import { Button } from '@/packages/ui/components/button'
+import { DollarSign, Info } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -32,14 +31,13 @@ interface ProjectInspectorWithFinanceProps {
   project: Project | null
   isOpen: boolean
   onClose: () => void
-  onUpdate: (data: Partial<Project>) => void
+  onUpdate?: (data: Partial<Project>) => void
 }
 
 export function ProjectInspectorWithFinance({
   project,
   isOpen,
   onClose,
-  onUpdate,
 }: ProjectInspectorWithFinanceProps) {
   const [activeTab, setActiveTab] = useState('info')
 

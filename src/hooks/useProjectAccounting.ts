@@ -6,7 +6,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import * as api from '@/api/accounting'
 
 // Query keys
-const PROJECT_ACCOUNTING_KEY = 'project-accounting'
 const PROJECT_BUDGET_KEY = 'project-budget'
 const PROJECT_EXPENSES_KEY = 'project-expenses'
 const PROJECT_FINANCIAL_KEY = 'project-financial'

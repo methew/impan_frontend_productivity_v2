@@ -59,7 +59,7 @@ function useTimer(): UseTimerReturn {
   const [startTime, setStartTime] = useState<Date | null>(null)
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
+    let interval: ReturnType<typeof setInterval> | null = null
 
     if (isRunning) {
       interval = setInterval(() => {
@@ -154,7 +154,7 @@ export function TimeTracker({
   onStop,
   compact = false 
 }: TimeTrackerProps) {
-  const { t } = useTranslation()
+  useTranslation() // Keep hook for future i18n
   const { isRunning, elapsedSeconds, startTime, start, stop, reset } = useTimer()
   const [entries, setEntries] = useState<TimeEntry[]>([])
 

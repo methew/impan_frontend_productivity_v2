@@ -15,21 +15,20 @@ import {
   PointerSensor, 
   useSensor, 
   useSensors,
-  DragStartEvent,
-  DragOverEvent,
-  DragEndEvent,
   defaultDropAnimationSideEffects,
-  DropAnimation
+  type DragStartEvent,
+  type DragOverEvent,
+  type DragEndEvent,
+  type DropAnimation
 } from '@dnd-kit/core'
 import { 
-  arrayMove, 
   SortableContext, 
   sortableKeyboardCoordinates, 
   verticalListSortingStrategy,
   useSortable
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Plus, MoreHorizontal, Calendar, Flag } from 'lucide-react'
+import { Plus, Calendar, Flag } from 'lucide-react'
 import { Button } from '@/packages/ui/components/button'
 import { Badge } from '@/packages/ui/components/badge'
 import { cn } from '@/lib/utils'
@@ -208,7 +207,7 @@ function KanbanColumnComponent({ column, tasks, onTaskClick, onAddTask }: Kanban
 // ============================================================================
 
 export function KanbanBoard({ tasks, onTaskMove, onTaskClick, onAddTask }: KanbanBoardProps) {
-  const { t } = useTranslation()
+  useTranslation() // Keep hook for future i18n
   const [activeTask, setActiveTask] = useState<KanbanTask | null>(null)
 
   // Convert tasks to kanban tasks with status

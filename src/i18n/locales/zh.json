@@ -19,6 +19,9 @@
     "forecast": {
       "description": "查看即将到期的任务和逾期项目，合理安排时间"
     },
+    "calendar": {
+      "description": "通过日历视图查看和管理任务，支持月/周/日视图"
+    },
     "review": {
       "description": "定期回顾项目进度，确保一切按计划进行"
     },
@@ -45,6 +48,7 @@
     "board": "看板",
     "tags": "标签",
     "forecast": "预测",
+    "calendar": "日历",
     "review": "回顾",
     "flagged": "已标记",
     "completed": "已完成",
@@ -166,6 +170,14 @@
   },
   "board": {
     "title": "看板"
+  },
+  "calendar": {
+    "title": "日历",
+    "month": "月",
+    "week": "周",
+    "day": "日",
+    "today": "今天",
+    "more": "更多"
   },
   "projects": {
     "title": "项目",

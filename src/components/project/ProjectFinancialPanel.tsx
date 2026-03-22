@@ -7,7 +7,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
-  DollarSign, 
   Clock, 
   TrendingUp, 
   TrendingDown, 
@@ -31,14 +30,14 @@ import {
   useProjectFinancialSummary,
   useSetProjectBudget 
 } from '@/hooks/useProjectAccounting'
-import { formatCurrency, formatDuration } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
 
 interface ProjectFinancialPanelProps {
   projectId: string
 }
 
 export function ProjectFinancialPanel({ projectId }: ProjectFinancialPanelProps) {
-  const { t } = useTranslation()
+  useTranslation() // Keep hook for future i18n
   const { data: budget, isLoading: isLoadingBudget } = useProjectBudget(projectId)
   const { data: summary, isLoading: isLoadingSummary } = useProjectFinancialSummary(projectId)
   const setBudget = useSetProjectBudget()

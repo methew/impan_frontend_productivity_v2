@@ -31,7 +31,6 @@ function BoardPage() {
   
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [showNewTaskDialog, setShowNewTaskDialog] = useState(false)
-  const [newTaskStatus, setNewTaskStatus] = useState<TaskStatus>('todo')
 
   // Handle task move between columns
   const handleTaskMove = (taskId: string, newStatus: TaskStatus) => {
@@ -63,8 +62,7 @@ function BoardPage() {
   }
 
   // Handle add task from column
-  const handleAddTask = (status: TaskStatus) => {
-    setNewTaskStatus(status)
+  const handleAddTask = () => {
     setShowNewTaskDialog(true)
   }
 
@@ -118,7 +116,6 @@ function BoardPage() {
       <NewTaskDialog
         open={showNewTaskDialog}
         onOpenChange={setShowNewTaskDialog}
-        initialStatus={newTaskStatus}
       />
     </div>
   )
