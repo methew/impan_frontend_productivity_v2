@@ -28,10 +28,11 @@ import {
   useSortable
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Plus, Calendar, Flag } from 'lucide-react'
+import { Plus, Calendar } from 'lucide-react'
 import { Button } from '@/packages/ui/components/button'
 import { Badge } from '@/packages/ui/components/badge'
 import { cn } from '@/lib/utils'
+import { TaskFlagIcons } from '@/components/task/TaskFlagIcons'
 import type { Task } from '@/types'
 
 // ============================================================================
@@ -116,9 +117,11 @@ function KanbanCard({ task, onClick, isOverlay }: KanbanCardProps) {
       {/* Tags & Meta */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          {task.flagged && (
-            <Flag className="h-3.5 w-3.5 text-orange-500 fill-orange-500" />
-          )}
+          <TaskFlagIcons 
+            isImportant={task.is_important} 
+            isUrgent={task.is_urgent}
+            size="sm"
+          />
           {task.tags && task.tags.length > 0 && (
             <Badge variant="secondary" className="text-[10px] px-1 py-0">
               {task.tags.length}

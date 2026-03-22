@@ -125,7 +125,15 @@ export const useDropTask = createMutationHook<void, string>(
 export function useFlagTask() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: taskApi.flagTask,
+    mutationFn: ({ 
+      id, 
+      type = 'important',
+      value
+    }: { 
+      id: string
+      type?: 'important' | 'urgent'
+      value?: boolean
+    }) => taskApi.flagTask(id, type, value),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: taskKeys.all })
     },

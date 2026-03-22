@@ -50,8 +50,12 @@ export async function dropTask(id: string): Promise<void> {
   await apiClient.post(`/tasks/${id}/drop/`)
 }
 
-export async function flagTask(id: string): Promise<{ flagged: boolean }> {
-  const response = await apiClient.post(`/tasks/${id}/flag/`)
+export async function flagTask(
+  id: string, 
+  type: 'important' | 'urgent' = 'important',
+  value?: boolean
+): Promise<{ flagged: boolean; is_important: boolean; is_urgent: boolean }> {
+  const response = await apiClient.post(`/tasks/${id}/flag/`, { type, value })
   return response.data
 }
 
