@@ -88,6 +88,7 @@
     "noneFolder": "フォルダなし",
     "dragTooltip": "ドラッグして並べ替え",
     "cannotDropHere": "ここにはドロップできません",
+    "newTask": "新規タスク",
     "perspectives": "パースペクティブ",
     "perspectiveSettings": "パースペクティブ設定",
     "newAction": "新規アクション",
