@@ -15,6 +15,7 @@ import { Route as ReviewRouteImport } from './routes/review'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as HabitsRouteImport } from './routes/habits'
 import { Route as ForecastRouteImport } from './routes/forecast'
 import { Route as FlaggedRouteImport } from './routes/flagged'
 import { Route as CompletedRouteImport } from './routes/completed'
@@ -51,6 +52,11 @@ const LoginRoute = LoginRouteImport.update({
 const InboxRoute = InboxRouteImport.update({
   id: '/inbox',
   path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HabitsRoute = HabitsRouteImport.update({
+  id: '/habits',
+  path: '/habits',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForecastRoute = ForecastRouteImport.update({
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/completed': typeof CompletedRoute
   '/flagged': typeof FlaggedRoute
   '/forecast': typeof ForecastRoute
+  '/habits': typeof HabitsRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRouteWithChildren
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/completed': typeof CompletedRoute
   '/flagged': typeof FlaggedRoute
   '/forecast': typeof ForecastRoute
+  '/habits': typeof HabitsRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRouteWithChildren
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/completed': typeof CompletedRoute
   '/flagged': typeof FlaggedRoute
   '/forecast': typeof ForecastRoute
+  '/habits': typeof HabitsRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRouteWithChildren
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/completed'
     | '/flagged'
     | '/forecast'
+    | '/habits'
     | '/inbox'
     | '/login'
     | '/projects'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/completed'
     | '/flagged'
     | '/forecast'
+    | '/habits'
     | '/inbox'
     | '/login'
     | '/projects'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/completed'
     | '/flagged'
     | '/forecast'
+    | '/habits'
     | '/inbox'
     | '/login'
     | '/projects'
@@ -190,6 +202,7 @@ export interface RootRouteChildren {
   CompletedRoute: typeof CompletedRoute
   FlaggedRoute: typeof FlaggedRoute
   ForecastRoute: typeof ForecastRoute
+  HabitsRoute: typeof HabitsRoute
   InboxRoute: typeof InboxRoute
   LoginRoute: typeof LoginRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
@@ -240,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/inbox'
       fullPath: '/inbox'
       preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/habits': {
+      id: '/habits'
+      path: '/habits'
+      fullPath: '/habits'
+      preLoaderRoute: typeof HabitsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forecast': {
@@ -313,6 +333,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompletedRoute: CompletedRoute,
   FlaggedRoute: FlaggedRoute,
   ForecastRoute: ForecastRoute,
+  HabitsRoute: HabitsRoute,
   InboxRoute: InboxRoute,
   LoginRoute: LoginRoute,
   ProjectsRoute: ProjectsRouteWithChildren,

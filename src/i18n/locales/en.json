@@ -45,6 +45,7 @@
     "tags": "Tags",
     "forecast": "Forecast",
     "calendar": "Calendar",
+    "habits": "Habits",
     "review": "Review",
     "flagged": "Flagged",
     "completed": "Completed",
@@ -165,6 +166,15 @@
     "day": "Day",
     "today": "Today",
     "more": "more"
+  },
+  "habits": {
+    "title": "Habits",
+    "addHabit": "Add Habit",
+    "newHabit": "New Habit",
+    "name": "Habit Name",
+    "namePlaceholder": "e.g., Morning Reading",
+    "color": "Color",
+    "targetDays": "Target Days per Week"
   },
   "tags": {
     "title": "Tags",

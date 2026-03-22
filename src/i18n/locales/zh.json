@@ -34,6 +34,9 @@
     "board": {
       "description": "通过看板视图管理任务，拖拽实现状态流转"
     },
+    "habits": {
+      "description": "追踪日常习惯，建立规律的生活节奏"
+    },
     "settings": {
       "description": "自定义应用程序设置，配置个人偏好选项"
     },
@@ -49,6 +52,7 @@
     "tags": "标签",
     "forecast": "预测",
     "calendar": "日历",
+    "habits": "习惯",
     "review": "回顾",
     "flagged": "已标记",
     "completed": "已完成",
@@ -178,6 +182,15 @@
     "day": "日",
     "today": "今天",
     "more": "更多"
+  },
+  "habits": {
+    "title": "习惯",
+    "addHabit": "添加习惯",
+    "newHabit": "新建习惯",
+    "name": "习惯名称",
+    "namePlaceholder": "例如：晨间阅读",
+    "color": "颜色",
+    "targetDays": "每周目标天数"
   },
   "projects": {
     "title": "项目",

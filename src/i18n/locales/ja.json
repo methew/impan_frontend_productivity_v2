@@ -45,6 +45,7 @@
     "tags": "タグ",
     "forecast": "予定",
     "calendar": "カレンダー",
+    "habits": "習慣",
     "review": "レビュー",
     "flagged": "重要",
     "completed": "完了済み",
@@ -165,6 +166,15 @@
     "day": "日",
     "today": "今日",
     "more": "さらに"
+  },
+  "habits": {
+    "title": "習慣",
+    "addHabit": "習慣を追加",
+    "newHabit": "新規習慣",
+    "name": "習慣名",
+    "namePlaceholder": "例：朝の読書",
+    "color": "色",
+    "targetDays": "週の目標日数"
   },
   "tags": {
     "title": "タグ",
