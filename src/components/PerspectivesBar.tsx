@@ -15,8 +15,7 @@ import {
   LogOut,
   ChevronRight,
   Layout,
-  Target,
-  ListTree
+  Target
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getUserInfo, clearTokens } from '@/lib/auth'
@@ -44,7 +43,6 @@ const PERSPECTIVES: PerspectiveItem[] = [
   { id: 'inbox', labelKey: 'nav.inbox', icon: Inbox, to: '/inbox', color: '#6366f1' },
   { id: 'projects', labelKey: 'nav.projects', icon: FolderKanban, to: '/projects', color: '#8b5cf6' },
   { id: 'board', labelKey: 'nav.board', icon: Layout, to: '/board', color: '#06b6d4' },
-  { id: 'outline', labelKey: 'nav.outline', icon: ListTree, to: '/outline', color: '#14b8a6' },
   { id: 'tags', labelKey: 'nav.tags', icon: Tags, to: '/tags', color: '#ec4899' },
   { id: 'calendar', labelKey: 'nav.calendar', icon: Calendar, to: '/calendar', color: '#10b981' },
   { id: 'habits', labelKey: 'nav.habits', icon: Target, to: '/habits', color: '#f97316' },

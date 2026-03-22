@@ -30,7 +30,7 @@ import { ProjectInspectorWithFinance } from '@/components/project/ProjectInspect
 import { NewTaskDialog } from '@/components/NewTaskDialog'
 import { DraggableTree, type TreeNode, type DropPosition } from '@/components/DraggableTree'
 import { TaskFlagIcons } from '@/components/task/TaskFlagIcons'
-import { formatDate, cn } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import type { Folder, Folder as FolderType, Project, Task } from '@/types'
@@ -961,6 +961,19 @@ function TreeOutline({
     }
   }
 
+  // 格式化日期显示
+  const formatOutlineDate = (dateStr: string | null | undefined): string => {
+    if (!dateStr) return ''
+    const date = new Date(dateStr)
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    if (date.toDateString() === today.toDateString()) return '今天'
+    if (date.toDateString() === tomorrow.toDateString()) return '明天'
+    return `${date.getMonth() + 1}月${date.getDate()}日`
+  }
+
   const renderTask = (task: Task, depth: number = 0) => {
     const childTasks = getChildTasks(task.id)
     const hasChildren = childTasks.length > 0
@@ -970,82 +983,122 @@ function TreeOutline({
     const isDueSoon = task.due_date && !isOverdue && !task.completed_at &&
       new Date(task.due_date).getTime() - Date.now() < 24 * 60 * 60 * 1000
     const isActionGroup = task.task_type === 'action_group'
+    
+    const hasFlags = task.is_important || task.is_urgent
+    const hasDates = task.defer_date || task.due_date
+    const hasTags = task.tags && task.tags.length > 0
+    const hasNote = task.note && task.note.trim().length > 0
 
     return (
       <div key={task.id}>
         <div
           className={cn(
-            "group flex items-center gap-1.5 py-1.5 cursor-pointer select-none",
+            "group py-1.5 cursor-pointer select-none",
             "transition-colors hover:bg-accent/30",
             isSelected && "bg-accent",
-            task.completed_at && "opacity-50",
-            isActionGroup && "bg-purple-50/50"
+            task.completed_at && "opacity-50"
           )}
-          style={{ paddingLeft: `${12 + depth * 16}px` }}
+          style={{ paddingLeft: `${8 + depth * 16}px` }}
           onClick={() => onSelectTask(task)}
         >
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleToggleExpand(task.id)
-            }}
-            className={cn(
-              "w-4 h-4 flex items-center justify-center flex-shrink-0 transition-transform",
-              !hasChildren && "invisible"
-            )}
-          >
-            <ChevronRight
+          <div className="flex items-start gap-1.5">
+            {/* 展开按钮 */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleToggleExpand(task.id)
+              }}
               className={cn(
-                "h-3.5 w-3.5 text-muted-foreground/60 transition-transform",
-                isExpanded && "rotate-90"
+                "w-4 h-4 flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform",
+                !hasChildren && "invisible"
               )}
-            />
-          </button>
+            >
+              <ChevronRight
+                className={cn(
+                  "h-3.5 w-3.5 text-muted-foreground/60 transition-transform",
+                  isExpanded && "rotate-90"
+                )}
+              />
+            </button>
 
-          {/* Status Circle - OmniFocus style */}
-          <StatusCircle
-            task={task}
-            isOverdue={!!isOverdue}
-            isDueSoon={!!isDueSoon}
-            onClick={(e) => handleTaskStatusClick(e, task)}
-          />
+            {/* 状态圆圈 */}
+            <div className="mt-0.5">
+              <StatusCircle
+                task={task}
+                isOverdue={!!isOverdue}
+                isDueSoon={!!isDueSoon}
+                onClick={(e) => handleTaskStatusClick(e, task)}
+              />
+            </div>
 
-          {/* 标记符号 */}
-          <TaskFlagIcons 
-            isImportant={task.is_important} 
-            isUrgent={task.is_urgent}
-            size="sm"
-          />
-          
-          {/* Action Group Type Indicator */}
-          {isActionGroup && task.action_group_type && (
-            <span className="text-purple-500 text-[10px] font-bold">
-              {task.action_group_type === 'sequential' ? 'Seq' : 'Par'}
-            </span>
-          )}
+            {/* Outline Item 内容 */}
+            <div className="flex-1 min-w-0">
+              {/* 第一行：标记 ｜ 标题 */}
+              <div className="flex items-center gap-1">
+                {hasFlags && (
+                  <>
+                    <TaskFlagIcons 
+                      isImportant={task.is_important} 
+                      isUrgent={task.is_urgent}
+                      size="sm"
+                    />
+                    <span className="text-muted-foreground text-sm">｜</span>
+                  </>
+                )}
+                
+                <span className={cn(
+                  "text-sm truncate",
+                  (task.completed_at || task.dropped_at) && "line-through text-muted-foreground",
+                  !task.completed_at && !task.dropped_at && isOverdue && "text-red-600",
+                  isActionGroup && "font-bold"
+                )}>
+                  {task.title}
+                </span>
+              </div>
 
-          <span className={cn(
-            "flex-1 text-sm truncate",
-            (task.completed_at || task.dropped_at) && "line-through text-muted-foreground",
-            !task.completed_at && !task.dropped_at && isOverdue && "text-red-600",
-            !task.completed_at && !task.dropped_at && (task.is_important || task.is_urgent) && "text-foreground",
-            // Action Group 使用粗体
-            isActionGroup && "font-bold text-foreground"
-          )}>
-            {task.title}
-          </span>
+              {/* 第二行：日期 ｜ 标签 */}
+              {(hasDates || hasTags) && (
+                <div className="flex items-center gap-1 text-xs mt-0.5">
+                  {hasDates && (
+                    <span className="text-muted-foreground">
+                      {task.defer_date && (
+                        <span>推迟到{formatOutlineDate(task.defer_date)}</span>
+                      )}
+                      {task.defer_date && task.due_date && ' - '}
+                      {task.due_date && (
+                        <span className={cn(isOverdue && !task.completed_at && "text-red-500 font-medium")}>
+                          截止{formatOutlineDate(task.due_date)}
+                        </span>
+                      )}
+                    </span>
+                  )}
+                  
+                  {hasDates && hasTags && (
+                    <span className="text-muted-foreground">｜</span>
+                  )}
+                  
+                  {hasTags && (
+                    <span className="flex items-center gap-1 truncate">
+                      {task.tags?.map((tag, index) => (
+                        <span key={tag.id} className="text-blue-600 dark:text-blue-400">
+                          #{tag.name || `tag${index + 1}`}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </div>
+              )}
 
-          {task.due_date && (
-            <span className={cn(
-              "text-xs",
-              isOverdue && "text-red-500",
-              isDueSoon && "text-yellow-600",
-              !isOverdue && !isDueSoon && "text-muted-foreground"
-            )}>
-              {formatDate(task.due_date)}
-            </span>
-          )}
+              {/* 第三行：备注 */}
+              {hasNote && (
+                <div className="text-xs text-muted-foreground mt-0.5 truncate">
+                  {task.note?.split('\n')[0].slice(0, 50)}
+                  {task.note && task.note.length > 50 ? '...' : ''}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {hasChildren && isExpanded && childTasks.map(child => renderTask(child, depth + 1))}
