@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Target, Plus } from 'lucide-react'
 
-import { HabitTracker, useHabits } from '@/components/habits/HabitTracker'
+import { HabitTracker } from '@/components/habits/HabitTracker'
 import { Button } from '@/packages/ui/components/button'
 import {
   Dialog,
@@ -15,6 +15,14 @@ import {
 import { Input } from '@/packages/ui/components/input'
 import { Label } from '@/packages/ui/components/label'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import {
+  useHabits,
+  useCreateHabit,
+  useDeleteHabit,
+  useArchiveHabit,
+  useToggleHabitCompletion,
+} from '@/hooks/useHabits'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/habits')({
   component: HabitsPage,
@@ -34,21 +42,73 @@ const COLOR_OPTIONS = [
 function HabitsPage() {
   usePageMeta({ titleKey: 'habits.title', descriptionKey: 'meta.habits.description' })
   const { t } = useTranslation()
-  const { habits, toggleHabit, addHabit, deleteHabit } = useHabits()
+  
+  // API Hooks
+  const { data: habits = [], isLoading } = useHabits()
+  const createHabit = useCreateHabit()
+  const deleteHabit = useDeleteHabit()
+  const archiveHabit = useArchiveHabit()
+  const toggleCompletion = useToggleHabitCompletion()
   
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [newHabitName, setNewHabitName] = useState('')
   const [selectedColor, setSelectedColor] = useState(COLOR_OPTIONS[0])
   const [targetDays, setTargetDays] = useState(7)
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (newHabitName.trim()) {
-      addHabit(newHabitName.trim(), selectedColor, targetDays)
-      setNewHabitName('')
-      setSelectedColor(COLOR_OPTIONS[0])
-      setTargetDays(7)
-      setShowAddDialog(false)
+      try {
+        await createHabit.mutateAsync({
+          name: newHabitName.trim(),
+          color: selectedColor,
+          target_days: targetDays,
+        })
+        toast.success('习惯创建成功')
+        setNewHabitName('')
+        setSelectedColor(COLOR_OPTIONS[0])
+        setTargetDays(7)
+        setShowAddDialog(false)
+      } catch (error) {
+        toast.error('创建失败')
+      }
     }
+  }
+
+  const handleToggle = async (habitId: string, date: Date) => {
+    const dateStr = date.toISOString().split('T')[0]
+    try {
+      await toggleCompletion.mutateAsync({ habitId, date: dateStr })
+    } catch (error) {
+      toast.error('操作失败')
+    }
+  }
+
+  const handleDelete = async (habitId: string) => {
+    if (confirm('确定要删除这个习惯吗？')) {
+      try {
+        await deleteHabit.mutateAsync(habitId)
+        toast.success('已删除')
+      } catch (error) {
+        toast.error('删除失败')
+      }
+    }
+  }
+
+  const handleArchive = async (habitId: string) => {
+    try {
+      await archiveHabit.mutateAsync(habitId)
+      toast.success('已归档')
+    } catch (error) {
+      toast.error('归档失败')
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    )
   }
 
   return (
@@ -72,13 +132,14 @@ function HabitsPage() {
       <div className="flex-1 overflow-hidden p-4">
         <HabitTracker
           habits={habits}
-          onToggle={toggleHabit}
+          onToggle={handleToggle}
           onAdd={() => setShowAddDialog(true)}
           onEdit={(habit) => {
             // TODO: Open edit dialog
             console.log('Edit habit:', habit)
           }}
-          onDelete={deleteHabit}
+          onDelete={handleDelete}
+          onArchive={handleArchive}
         />
       </div>
 
@@ -135,8 +196,11 @@ function HabitsPage() {
             <Button variant="outline" onClick={() => setShowAddDialog(false)}>
               {t('common.cancel', '取消')}
             </Button>
-            <Button onClick={handleAdd} disabled={!newHabitName.trim()}>
-              {t('common.create', '创建')}
+            <Button 
+              onClick={handleAdd} 
+              disabled={!newHabitName.trim() || createHabit.isPending}
+            >
+              {createHabit.isPending ? '创建中...' : t('common.create', '创建')}
             </Button>
           </DialogFooter>
         </DialogContent>

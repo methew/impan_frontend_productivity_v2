@@ -62,7 +62,7 @@ function RootLayout() {
       '/completed': t('nav.completed'),
       '/settings': t('nav.settings'),
     }
-    return names[currentPath] || 'OmniFocus'
+    return names[currentPath] || 'ToDo'
   }
   
   // Handle new action button click

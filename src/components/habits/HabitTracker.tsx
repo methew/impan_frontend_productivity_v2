@@ -4,7 +4,7 @@
  * 类似 Done 的简单习惯打卡，周视图
  */
 
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   Check, 
@@ -13,7 +13,8 @@ import {
   Flame,
   Target,
   Trash2,
-  Edit2
+  Edit2,
+  Archive
 } from 'lucide-react'
 import { Button } from '@/packages/ui/components/button'
 import { cn } from '@/lib/utils'
@@ -23,23 +24,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/packages/ui/components/dropdown-menu'
+import type { Habit } from '@/api/habits'
 
 // ============================================================================
 // Types
 // ============================================================================
-
-type Frequency = 'daily' | 'weekly' | 'custom'
-
-interface Habit {
-  id: string
-  name: string
-  color: string
-  icon?: string
-  frequency: Frequency
-  targetDays: number // 每周目标天数
-  completions: string[] // ISO date strings
-  archived?: boolean
-}
 
 interface HabitTrackerProps {
   habits: Habit[]
@@ -47,6 +36,7 @@ interface HabitTrackerProps {
   onAdd?: () => void
   onEdit?: (habit: Habit) => void
   onDelete?: (habitId: string) => void
+  onArchive?: (habitId: string) => void
 }
 
 // ============================================================================
@@ -80,44 +70,14 @@ function formatDateKey(date: Date): string {
   return date.toISOString().split('T')[0]
 }
 
-function getStreak(completions: string[]): number {
-  if (completions.length === 0) return 0
-  
-  const sorted = [...completions].sort().reverse()
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  
-  let streak = 0
-  let currentDate = new Date(today)
-  
-  // Check if completed today
-  if (sorted[0] === formatDateKey(currentDate)) {
-    streak = 1
-  } else {
-    // Check if completed yesterday (streak can continue if yesterday was completed)
-    const yesterday = new Date(currentDate)
-    yesterday.setDate(yesterday.getDate() - 1)
-    if (sorted[0] !== formatDateKey(yesterday)) {
-      return 0
-    }
-    streak = 1
-    currentDate = yesterday
-  }
-  
-  // Count consecutive days
-  for (let i = 1; i < sorted.length; i++) {
-    const expectedDate = new Date(currentDate)
-    expectedDate.setDate(expectedDate.getDate() - 1)
-    
-    if (sorted[i] === formatDateKey(expectedDate)) {
-      streak++
-      currentDate = expectedDate
-    } else {
-      break
-    }
-  }
-  
-  return streak
+/**
+ * 从习惯的completions_this_week数据检查某天是否完成
+ */
+function isDateCompleted(habit: Habit, date: Date): boolean {
+  const dateKey = formatDateKey(date)
+  return habit.completions_this_week.some(
+    c => c.date === dateKey && c.is_completed
+  )
 }
 
 // ============================================================================
@@ -130,14 +90,11 @@ interface HabitCardProps {
   onToggle: (habitId: string, date: Date) => void
   onEdit?: (habit: Habit) => void
   onDelete?: (habitId: string) => void
+  onArchive?: (habitId: string) => void
 }
 
-function HabitCard({ habit, weekDays, onToggle, onEdit, onDelete }: HabitCardProps) {
-  const streak = getStreak(habit.completions)
-  const thisWeekCompletions = weekDays.filter(day => 
-    habit.completions.includes(formatDateKey(day))
-  ).length
-  const progress = Math.round((thisWeekCompletions / habit.targetDays) * 100)
+function HabitCard({ habit, weekDays, onToggle, onEdit, onDelete, onArchive }: HabitCardProps) {
+  const progress = habit.completion_rate_this_week
 
   return (
     <div className="bg-card rounded-lg border p-4 hover:shadow-sm transition-shadow">
@@ -153,13 +110,13 @@ function HabitCard({ habit, weekDays, onToggle, onEdit, onDelete }: HabitCardPro
           <div>
             <h3 className="font-medium">{habit.name}</h3>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              {streak > 0 && (
+              {habit.current_streak > 0 && (
                 <span className="flex items-center gap-0.5 text-orange-500">
                   <Flame className="h-3 w-3" />
-                  {streak} 天连续
+                  {habit.current_streak} 天连续
                 </span>
               )}
-              <span>{thisWeekCompletions}/{habit.targetDays} 本周</span>
+              <span>{habit.completions_this_week.filter(c => c.is_completed).length}/{habit.target_days} 本周</span>
             </div>
           </div>
         </div>
@@ -174,6 +131,10 @@ function HabitCard({ habit, weekDays, onToggle, onEdit, onDelete }: HabitCardPro
             <DropdownMenuItem onClick={() => onEdit?.(habit)}>
               <Edit2 className="h-4 w-4 mr-2" />
               编辑
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onArchive?.(habit.id)}>
+              <Archive className="h-4 w-4 mr-2" />
+              归档
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={() => onDelete?.(habit.id)}
@@ -202,8 +163,7 @@ function HabitCard({ habit, weekDays, onToggle, onEdit, onDelete }: HabitCardPro
       {/* Week Days */}
       <div className="grid grid-cols-7 gap-1">
         {weekDays.map((day, index) => {
-          const dateKey = formatDateKey(day)
-          const isCompleted = habit.completions.includes(dateKey)
+          const isCompleted = isDateCompleted(habit, day)
           const isToday = isSameDay(day, new Date())
 
           return (
@@ -242,14 +202,18 @@ export function HabitTracker({
   onToggle, 
   onAdd, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onArchive,
 }: HabitTrackerProps) {
   useTranslation() // Keep hook for future i18n
   const weekDays = useMemo(() => getWeekDays(), [])
 
-  const activeHabits = habits.filter(h => !h.archived)
+  const activeHabits = habits.filter(h => !h.is_archived)
+  
+  // 计算今日完成数
+  const today = new Date()
   const totalCompletionsToday = activeHabits.filter(h => 
-    h.completions.includes(formatDateKey(new Date()))
+    isDateCompleted(h, today)
   ).length
 
   return (
@@ -269,12 +233,8 @@ export function HabitTracker({
           <p className="text-2xl font-semibold">
             {activeHabits.length > 0 
               ? Math.round(
-                  activeHabits.reduce((sum, h) => {
-                    const weekCompletions = weekDays.filter(d => 
-                      h.completions.includes(formatDateKey(d))
-                    ).length
-                    return sum + (weekCompletions / h.targetDays) * 100
-                  }, 0) / activeHabits.length
+                  activeHabits.reduce((sum, h) => sum + h.completion_rate_this_week, 0) 
+                  / activeHabits.length
                 )
               : 0}%
           </p>
@@ -309,6 +269,7 @@ export function HabitTracker({
                 onToggle={onToggle}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                onArchive={onArchive}
               />
             ))}
           </div>
@@ -326,93 +287,6 @@ export function HabitTracker({
       )}
     </div>
   )
-}
-
-// ============================================================================
-// Sample Data & Hooks
-// ============================================================================
-
-export function useHabits() {
-  const [habits, setHabits] = useState<Habit[]>(() => {
-    // Load from localStorage or use defaults
-    const saved = localStorage.getItem('habits')
-    if (saved) {
-      return JSON.parse(saved)
-    }
-    return [
-      {
-        id: '1',
-        name: '晨间阅读',
-        color: '#6366f1',
-        frequency: 'daily',
-        targetDays: 7,
-        completions: []
-      },
-      {
-        id: '2',
-        name: '运动健身',
-        color: '#10b981',
-        frequency: 'daily',
-        targetDays: 5,
-        completions: []
-      },
-      {
-        id: '3',
-        name: '冥想',
-        color: '#8b5cf6',
-        frequency: 'daily',
-        targetDays: 7,
-        completions: []
-      }
-    ]
-  })
-
-  // Save to localStorage
-  useState(() => {
-    localStorage.setItem('habits', JSON.stringify(habits))
-  })
-
-  const toggleHabit = (habitId: string, date: Date) => {
-    const dateKey = formatDateKey(date)
-    
-    setHabits(prev => prev.map(habit => {
-      if (habit.id !== habitId) return habit
-      
-      const completions = habit.completions.includes(dateKey)
-        ? habit.completions.filter(d => d !== dateKey)
-        : [...habit.completions, dateKey]
-      
-      return { ...habit, completions }
-    }))
-  }
-
-  const addHabit = (name: string, color: string, targetDays: number) => {
-    const newHabit: Habit = {
-      id: Date.now().toString(),
-      name,
-      color,
-      frequency: 'daily',
-      targetDays,
-      completions: []
-    }
-    setHabits(prev => [...prev, newHabit])
-  }
-
-  const updateHabit = (id: string, updates: Partial<Habit>) => {
-    setHabits(prev => prev.map(h => h.id === id ? { ...h, ...updates } : h))
-  }
-
-  const deleteHabit = (id: string) => {
-    setHabits(prev => prev.filter(h => h.id !== id))
-  }
-
-  return {
-    habits,
-    toggleHabit,
-    addHabit,
-    updateHabit,
-    deleteHabit
-  }
 }
 
 export default HabitTracker
