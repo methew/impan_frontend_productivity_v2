@@ -1,13 +1,12 @@
 /**
- * OmniFocus 4.8.5-style Inspector Panel - Using Sheet
+ * OmniFocus 4.8.5-style Inspector Panel - Using Sheet with Tabs
  * Based on: https://support.omnigroup.com/documentation/omnifocus/universal/4.8.5/en/inspector
  */
 import React, { useState, useEffect } from 'react'
 import {
-  Calendar, Flag, Clock, Paperclip, CheckCircle2,
+  Calendar, Clock, Paperclip, CheckCircle2,
   ChevronLeft, ChevronRight, Share2, FolderInput,
-  Repeat,
-  X
+  Repeat, X, Info, Wallet
 } from 'lucide-react'
 import { Button } from '@/packages/ui/components/button'
 import { Input } from '@/packages/ui/components/input'
@@ -44,6 +43,7 @@ import { format, parseISO } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import { cn } from '@/packages/ui/lib/utils'
 import { useTranslation } from 'react-i18next'
+import { ProjectFinancialPanel } from '@/components/project/ProjectFinancialPanel'
 
 // Types - should be defined locally or imported from a shared types package
 interface Tag {
@@ -164,11 +164,13 @@ export function Inspector({
   tasks = []
 }: InspectorProps) {
   const [formData, setFormData] = useState<Partial<Task | Project | FolderType>>({})
-  // const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [activeTab, setActiveTab] = useState<'info' | 'budget'>('info')
 
   useEffect(() => {
     if (item) {
       setFormData({ ...item })
+      // Reset to info tab when item changes
+      setActiveTab('info')
     }
   }, [item])
 
@@ -207,7 +209,7 @@ export function Inspector({
           <>
             {/* Header */}
             <SheetHeader className="px-4 py-3 border-b space-y-0 flex-shrink-0">
-              <div className="flex items-center ">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   {onNavigate && (
                     <>
@@ -228,10 +230,49 @@ export function Inspector({
                   <X className="h-4 w-4" />
                 </Button>
               </div>
+              
+              {/* Tab Navigation - OmniFocus Style */}
+              <div className="flex items-center gap-1 mt-3 -mx-4 px-4 border-t pt-2">
+                <button
+                  onClick={() => setActiveTab('info')}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors",
+                    activeTab === 'info'
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  <Info className="h-3.5 w-3.5" />
+                  信息
+                </button>
+                {/* Budget Tab - Projects Only */}
+                {isProject(item) && (
+                  <button
+                    onClick={() => setActiveTab('budget')}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors",
+                      activeTab === 'budget'
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    )}
+                  >
+                    <Wallet className="h-3.5 w-3.5" />
+                    预算
+                  </button>
+                )}
+              </div>
             </SheetHeader>
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto">
+              {activeTab === 'budget' && isProject(item) ? (
+                /* Budget Tab Content - Projects Only */
+                <div className="p-4">
+                  <ProjectFinancialPanel projectId={item.id} />
+                </div>
+              ) : (
+                /* Info Tab Content - All Types */
+                <>
               {/* Title/Name Section */}
               <InspectorSection title={isFolder(item) ? t('inspector.section.name') : t('inspector.section.title')} defaultOpen>
                 {isFolder(item) ? (
@@ -303,25 +344,6 @@ export function Inspector({
                   {/* Status */}
                   <InspectorSection title="状态" defaultOpen>
                     <div className="space-y-3">
-                      {/* Status */}
-                      <div className="space-y-1.5">
-                        <Label className="text-xs text-muted-foreground">状态</Label>
-                        <Select
-                          value={(formData as any).status || 'active'}
-                          onValueChange={(value) => handleUpdate({ status: value as any })}
-                        >
-                          <SelectTrigger className="h-9">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="active">活跃</SelectItem>
-                            {isProject(item) && <SelectItem value="on_hold">暂停</SelectItem>}
-                            <SelectItem value="completed">已完成</SelectItem>
-                            <SelectItem value="dropped">已丢弃</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
                       {/* Project Type (projects only) */}
                       {isProject(item) && (
                         <div className="space-y-1.5">
@@ -466,21 +488,6 @@ export function Inspector({
                         )}
                       </div>
 
-                      {/* Flag */}
-                      <div className="flex items-center justify-between py-1">
-                        <div className="flex items-center gap-2">
-                          <Flag className={cn(
-                            "h-4 w-4",
-                            (formData as any).flagged ? 'text-orange-500 fill-orange-500' : 'text-muted-foreground'
-                          )} />
-                          <Label className="text-sm">标记</Label>
-                        </div>
-                        <Switch
-                          checked={(formData as any).flagged || false}
-                          onCheckedChange={(checked) => handleUpdate({ flagged: checked })}
-                        />
-                      </div>
-
                       {/* Importance/Urgency */}
                       <div className="flex items-center justify-between py-1">
                         <div className="flex items-center gap-2">
@@ -546,17 +553,37 @@ export function Inspector({
                         </div>
                       )}
 
-                      {/* 当前位置信息（只读） */}
+                      {/* 当前位置信息（只读）- 显示完整路径 */}
                       {isTask(item) && (() => {
                         const currentProject = (formData as Task).project
                         const currentParent = (formData as Task).parent
                         const project = currentProject ? projects.find(p => String(p.id) === String(currentProject)) : null
                         const parentTask = currentParent ? tasks.find(t => String(t.id) === String(currentParent)) : null
                         
+                        // 构建上级动作组的完整路径
+                        const buildParentTaskPath = (taskId: string): string => {
+                          const task = tasks.find(t => String(t.id) === String(taskId))
+                          if (!task) return ''
+                          
+                          // 递归构建路径
+                          const buildPath = (t: Task | undefined, path: string[]): string[] => {
+                            if (!t) return path
+                            path.unshift(t.title)
+                            if (t.parent) {
+                              const parent = tasks.find(pt => String(pt.id) === String(t.parent))
+                              return buildPath(parent, path)
+                            }
+                            return path
+                          }
+                          
+                          const pathArray = buildPath(task, [])
+                          return pathArray.join(' > ')
+                        }
+                        
                         return (
                           <div className="space-y-1.5 pt-2 pb-2 border-b">
                             <Label className="text-xs text-muted-foreground">当前位置</Label>
-                            <div className="text-sm">
+                            <div className="text-sm space-y-1">
                               {project ? (
                                 <span className="flex items-center gap-1 text-muted-foreground">
                                   <span className="text-amber-500">📁</span>
@@ -574,7 +601,7 @@ export function Inspector({
                               {parentTask && (
                                 <span className="flex items-center gap-1 ml-4 text-muted-foreground">
                                   <span className="text-purple-500">⊐</span>
-                                  <span className="font-medium text-foreground">{parentTask.title}</span>
+                                  <span className="font-medium text-foreground">{buildParentTaskPath(parentTask.id)}</span>
                                 </span>
                               )}
                             </div>
@@ -621,15 +648,17 @@ export function Inspector({
                                 </span>
                               </SelectItem>
                               
-                              {/* 项目列表 */}
+                              {/* 项目列表 - 显示完整路径 */}
                               {projects.map(p => {
                                 const folderDisplay = p.folder_path || p.folder_name
                                 return (
                                   <SelectItem key={`project:${p.id}`} value={`project:${p.id}`}>
                                     <span className="flex items-center gap-1.5">
                                       <span className="text-amber-500">📁</span>
-                                      {folderDisplay && (
+                                      {folderDisplay ? (
                                         <span className="text-muted-foreground">【{folderDisplay}】</span>
+                                      ) : (
+                                        <span className="text-muted-foreground text-xs">[无文件夹]</span>
                                       )}
                                       <span className="font-medium">《{p.title}》</span>
                                     </span>
@@ -642,7 +671,7 @@ export function Inspector({
                                 <div className="my-1 h-px bg-border" />
                               )}
                               
-                              {/* Action Group 任务列表 */}
+                              {/* Action Group 任务列表 - 显示完整路径 */}
                               {tasks
                                 .filter((t: Task) => {
                                   if (t.id === item?.id) return false
@@ -652,6 +681,23 @@ export function Inspector({
                                 .map((t: Task) => {
                                   const taskProject = t.project ? projects.find(p => String(p.id) === String(t.project)) : null
                                   const folderDisplay = taskProject?.folder_path || taskProject?.folder_name
+                                  
+                                  // 构建动作组的完整路径
+                                  const buildTaskPath = (task: Task | undefined): string => {
+                                    if (!task) return ''
+                                    const path: string[] = []
+                                    let current: Task | undefined = task
+                                    while (current) {
+                                      path.unshift(current.title)
+                                      if (current.parent) {
+                                        current = tasks.find(pt => String(pt.id) === String(current!.parent))
+                                      } else {
+                                        break
+                                      }
+                                    }
+                                    return path.join(' > ')
+                                  }
+                                  
                                   return (
                                     <SelectItem key={`task:${t.id}`} value={`task:${t.id}`}>
                                       <span className="flex items-center gap-1.5">
@@ -662,7 +708,7 @@ export function Inspector({
                                         {taskProject && (
                                           <span className="text-muted-foreground text-xs">《{taskProject.title}》</span>
                                         )}
-                                        <span className="font-medium">{t.title}</span>
+                                        <span className="font-medium">{buildTaskPath(t)}</span>
                                         <span className="text-xs text-purple-600">
                                           {t.action_group_type === 'sequential' ? '[顺序]' : '[并行]'}
                                         </span>
@@ -809,6 +855,8 @@ export function Inspector({
                   点击添加附件
                 </div>
               </InspectorSection>
+                </>
+              )}
             </div>
 
             {/* Bottom Toolbar */}

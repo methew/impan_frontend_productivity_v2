@@ -26,7 +26,6 @@ import { useFolders, useCreateFolder, useUpdateFolder } from '@/hooks/useFolders
 import { useProjects, useCreateProject, useUpdateProject } from '@/hooks/useProjects'
 import { useTasks, useUpdateTask, useCompleteTask, useCreateTask } from '@/hooks/useTasks'
 import { Inspector, type InspectorItem } from '@/packages/productivity-components/components/Inspector'
-import { ProjectInspectorWithFinance } from '@/components/project/ProjectInspectorWithFinance'
 import { NewTaskDialog } from '@/components/NewTaskDialog'
 import { DraggableTree, type TreeNode, type DropPosition } from '@/components/DraggableTree'
 import { TaskFlagIcons } from '@/components/task/TaskFlagIcons'
@@ -695,56 +694,43 @@ export function ProjectsPage() {
         </div>
       </div>
 
-      {/* Inspector Sheet - 项目和文件夹使用财务增强版 */}
-      {inspectorType === 'project' && viewData?.type === 'project' && viewData.project ? (
-        <ProjectInspectorWithFinance
-          project={viewData.project}
-          isOpen={inspectorOpen}
-          onClose={() => setInspectorOpen(false)}
-          onUpdate={(data) => {
-            if (viewData.project) {
-              updateProject.mutate({
-                id: viewData.project.id,
-                data: data as Partial<Project>
-              })
-            }
-          }}
-        />
-      ) : (
-        <Inspector
-          isOpen={inspectorOpen}
-          item={(inspectorItem || null) as InspectorItem}
-          type={inspectorType}
-          onClose={() => {
-            setInspectorOpen(false)
-          }}
-          onUpdate={(data) => {
-            if (!inspectorItem) return
+      {/* Inspector Sheet - 统一使用 Inspector 组件 */}
+      <Inspector
+        isOpen={inspectorOpen}
+        item={(inspectorItem || null) as InspectorItem}
+        type={inspectorType}
+        onClose={() => setInspectorOpen(false)}
+        onUpdate={(data) => {
+          if (!inspectorItem) return
 
-            if (inspectorType === 'task' && selectedTask) {
-              updateTask.mutate({
-                id: selectedTask.id,
-                data: data as Partial<Task>
-              })
-            } else if (inspectorType === 'folder' && viewData?.type === 'folder') {
-              updateFolder.mutate({
-                id: viewData.folder!.id,
-                data: data as Partial<Folder>
-              })
-            }
-          }}
-          onSave={() => {
-            toast.success(t('common.save'))
-          }}
-          onConvert={(targetType) => {
-            if (!inspectorItem) return
-            toast.info(`${t('common.create')} ${targetType}...`)
-          }}
-          projects={allProjects || []}
-          folders={folders || []}
-          tasks={allTasks || []}
-        />
-      )}
+          if (inspectorType === 'task' && selectedTask) {
+            updateTask.mutate({
+              id: selectedTask.id,
+              data: data as Partial<Task>
+            })
+          } else if (inspectorType === 'project' && viewData?.type === 'project' && viewData.project) {
+            updateProject.mutate({
+              id: viewData.project.id,
+              data: data as Partial<Project>
+            })
+          } else if (inspectorType === 'folder' && viewData?.type === 'folder') {
+            updateFolder.mutate({
+              id: viewData.folder!.id,
+              data: data as Partial<Folder>
+            })
+          }
+        }}
+        onSave={() => {
+          toast.success(t('common.save'))
+        }}
+        onConvert={(targetType) => {
+          if (!inspectorItem) return
+          toast.info(`${t('common.create')} ${targetType}...`)
+        }}
+        projects={allProjects || []}
+        folders={folders || []}
+        tasks={allTasks || []}
+      />
 
       {/* Dialogs */}
       <NewProjectDialog
