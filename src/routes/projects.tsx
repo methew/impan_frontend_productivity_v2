@@ -2,7 +2,7 @@ import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router'
 import {
   FolderKanban, Plus, MoreHorizontal,
   ChevronRight, Folder as FolderIcon,
-  FolderOpen, Flag, Check
+  FolderOpen, Check
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/packages/ui/components/button'
@@ -29,6 +29,7 @@ import { Inspector, type InspectorItem } from '@/packages/productivity-component
 import { ProjectInspectorWithFinance } from '@/components/project/ProjectInspectorWithFinance'
 import { NewTaskDialog } from '@/components/NewTaskDialog'
 import { DraggableTree, type TreeNode, type DropPosition } from '@/components/DraggableTree'
+import { TaskFlagIcons } from '@/components/task/TaskFlagIcons'
 import { formatDate, cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { usePageMeta } from '@/hooks/usePageMeta'
@@ -1011,29 +1012,24 @@ function TreeOutline({
           />
 
           {/* 标记符号 */}
-          <span className="flex items-center gap-0.5 text-xs font-bold">
-            {task.flagged && (
-              <Flag className="h-3 w-3 fill-amber-500 text-amber-500" />
-            )}
-            {task.is_urgent && (
-              <span className="text-orange-500">*</span>
-            )}
-            {task.is_important && (
-              <span className="text-red-500">!</span>
-            )}
-            {/* Action Group Type Indicator */}
-            {isActionGroup && task.action_group_type && (
-              <span className="text-purple-500 text-[10px]">
-                {task.action_group_type === 'sequential' ? 'Seq' : 'Par'}
-              </span>
-            )}
-          </span>
+          <TaskFlagIcons 
+            isImportant={task.is_important} 
+            isUrgent={task.is_urgent}
+            size="sm"
+          />
+          
+          {/* Action Group Type Indicator */}
+          {isActionGroup && task.action_group_type && (
+            <span className="text-purple-500 text-[10px] font-bold">
+              {task.action_group_type === 'sequential' ? 'Seq' : 'Par'}
+            </span>
+          )}
 
           <span className={cn(
             "flex-1 text-sm truncate",
             (task.completed_at || task.dropped_at) && "line-through text-muted-foreground",
             !task.completed_at && !task.dropped_at && isOverdue && "text-red-600",
-            !task.completed_at && !task.dropped_at && task.flagged && "text-amber-600",
+            !task.completed_at && !task.dropped_at && (task.is_important || task.is_urgent) && "text-foreground",
             // Action Group 使用粗体
             isActionGroup && "font-bold text-foreground"
           )}>

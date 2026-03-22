@@ -9,7 +9,7 @@ import { Button } from '@/packages/ui/components/button'
 import { Input } from '@/packages/ui/components/input'
 import { Label } from '@/packages/ui/components/label'
 import { Switch } from '@/packages/ui/components/switch'
-import { Flag } from 'lucide-react'
+import { Flag, Zap } from 'lucide-react'
 import { useProjects } from '@/hooks/useProjects'
 import { useTasks, useCreateTask } from '@/hooks/useTasks'
 import { toast } from 'sonner'
@@ -29,11 +29,10 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
   const [title, setTitle] = useState('')
   const [projectId, setProjectId] = useState<string | undefined>(defaultProjectId)
   const [parentId, setParentId] = useState<string>('')
-  const [taskType, setTaskType] = useState<'project_task' | 'action_group'>('project_task')
   const [actionGroupType, setActionGroupType] = useState<'parallel' | 'sequential'>('parallel')
-  const [flagged, setFlagged] = useState(false)
   const [isImportant, setIsImportant] = useState(false)
   const [isUrgent, setIsUrgent] = useState(false)
+  const [hasSubtasks, setHasSubtasks] = useState(false)
   const [dueDate, setDueDate] = useState('')
   const [deferDate, setDeferDate] = useState('')
   const { data: projects } = useProjects()
@@ -66,13 +65,16 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
 
     try {
       const isInbox = !projectId || projectId === '__none__'
+      // 自动判断类型：如果有子节点标记则为动作组
+      const taskType = hasSubtasks ? 'action_group' : 'project_task'
+      
       await createTask.mutateAsync({
         title: title.trim(),
         project: isInbox ? undefined : projectId,
         parent: parentId || undefined,
         task_type: taskType,
-        action_group_type: taskType === 'action_group' ? actionGroupType : undefined,
-        flagged,
+        action_group_type: hasSubtasks ? actionGroupType : undefined,
+        flagged: isImportant || isUrgent,
         is_important: isImportant,
         is_urgent: isUrgent,
         due_date: dueDate || undefined,
@@ -84,9 +86,8 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
       setTitle('')
       setProjectId(defaultProjectId)
       setParentId('')
-      setTaskType('project_task')
       setActionGroupType('parallel')
-      setFlagged(false)
+      setHasSubtasks(false)
       setIsImportant(false)
       setIsUrgent(false)
       setDueDate('')
@@ -156,114 +157,85 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
             </div>
           )}
 
-          {/* 任务类型 */}
+          {/* 动作组选项 */}
           <div className="space-y-2">
-            <Label>{t('dialog.newAction.typeLabel')}</Label>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setTaskType('project_task')}
-                className={cn(
-                  "flex-1 py-2 px-3 rounded-lg border text-sm transition-colors",
-                  taskType === 'project_task'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border hover:border-primary/50"
-                )}
-              >
-                {t('dialog.newAction.typeRegular')}
-              </button>
-              <button
-                type="button"
-                onClick={() => setTaskType('action_group')}
-                className={cn(
-                  "flex-1 py-2 px-3 rounded-lg border text-sm transition-colors font-bold",
-                  taskType === 'action_group'
-                    ? "border-purple-500 bg-purple-50 text-purple-700"
-                    : "border-border hover:border-purple-300"
-                )}
-              >
-                {t('dialog.newAction.typeActionGroup')}
-              </button>
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={hasSubtasks}
+                onCheckedChange={setHasSubtasks}
+              />
+              <Label className="cursor-pointer">
+                {t('dialog.newAction.hasSubtasks', '这是一个动作组（将包含子动作）')}
+              </Label>
             </div>
-          </div>
-
-          {/* Action Group 类型 */}
-          {taskType === 'action_group' && (
-            <div className="space-y-2">
-              <Label>{t('dialog.newAction.actionGroupTypeLabel')}</Label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setActionGroupType('parallel')}
-                  className={cn(
-                    "flex-1 py-2 px-3 rounded-lg border text-sm transition-colors",
-                    actionGroupType === 'parallel'
-                      ? "border-green-500 bg-green-50 text-green-700"
-                      : "border-border hover:border-green-300"
-                  )}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="flex gap-[2px]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+            
+            {/* Action Group 类型 - 仅在勾选时显示 */}
+            {hasSubtasks && (
+              <div className="space-y-2 pt-2">
+                <Label>{t('dialog.newAction.actionGroupTypeLabel')}</Label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setActionGroupType('parallel')}
+                    className={cn(
+                      "flex-1 py-2 px-3 rounded-lg border text-sm transition-colors",
+                      actionGroupType === 'parallel'
+                        ? "border-green-500 bg-green-50 text-green-700"
+                        : "border-border hover:border-green-300"
+                    )}
+                  >
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="flex gap-[2px]">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      </div>
+                      {t('projects.parallel')}
                     </div>
-                    {t('projects.parallel')}
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActionGroupType('sequential')}
-                  className={cn(
-                    "flex-1 py-2 px-3 rounded-lg border text-sm transition-colors",
-                    actionGroupType === 'sequential'
-                      ? "border-blue-500 bg-blue-50 text-blue-700"
-                      : "border-border hover:border-blue-300"
-                  )}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="flex flex-col gap-[1px]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-300" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActionGroupType('sequential')}
+                    className={cn(
+                      "flex-1 py-2 px-3 rounded-lg border text-sm transition-colors",
+                      actionGroupType === 'sequential'
+                        ? "border-blue-500 bg-blue-50 text-blue-700"
+                        : "border-border hover:border-blue-300"
+                    )}
+                  >
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="flex flex-col gap-[1px]">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-300" />
+                      </div>
+                      {t('projects.sequential')}
                     </div>
-                    {t('projects.sequential')}
-                  </div>
-                </button>
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {t('dialog.newAction.actionGroupHint')}
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground">
-                {t('dialog.newAction.actionGroupHint')}
-              </p>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* 标记 */}
           <div className="space-y-3">
             <Label>{t('dialog.newAction.markLabel')}</Label>
             <div className="flex items-center gap-6">
-              {/* Flagged */}
-              <div className="flex items-center gap-2">
-                <Switch
-                  checked={flagged}
-                  onCheckedChange={setFlagged}
-                />
-                <div className="flex items-center gap-1.5">
-                  <Flag className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
-                  <span className={cn("text-sm", flagged && "text-amber-600 font-medium")}>
-                    Flag
-                  </span>
-                </div>
-              </div>
-
               {/* Important */}
               <div className="flex items-center gap-2">
                 <Switch
                   checked={isImportant}
                   onCheckedChange={setIsImportant}
                 />
-                <span className={cn("text-sm font-bold", isImportant ? "text-red-600" : "text-muted-foreground")}>
-                  {t('dialog.newAction.important')}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <Flag className="h-3.5 w-3.5 text-orange-500 fill-orange-500" />
+                  <span className={cn("text-sm font-bold", isImportant ? "text-orange-600" : "text-muted-foreground")}>
+                    {t('dialog.newAction.important')}
+                  </span>
+                </div>
               </div>
 
               {/* Urgent */}
@@ -272,9 +244,12 @@ export function NewTaskDialog({ open, onOpenChange, defaultProjectId }: NewTaskD
                   checked={isUrgent}
                   onCheckedChange={setIsUrgent}
                 />
-                <span className={cn("text-sm font-bold", isUrgent ? "text-orange-600" : "text-muted-foreground")}>
-                  {t('dialog.newAction.urgent')}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <Zap className="h-3.5 w-3.5 text-red-500 fill-red-500" />
+                  <span className={cn("text-sm font-bold", isUrgent ? "text-red-600" : "text-muted-foreground")}>
+                    {t('dialog.newAction.urgent')}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
