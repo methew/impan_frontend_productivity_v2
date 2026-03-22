@@ -64,3 +64,16 @@ export function formatDuration(minutes?: number, t?: (key: string, options?: obj
   if (mins === 0) return t ? t('common.hours', { count: hours }) : `${hours}小时`
   return t ? t('common.hoursMinutes', { hours, mins }) : `${hours}小时${mins}分钟`
 }
+
+/**
+ * 格式化货币金额
+ */
+export function formatCurrency(amount: number | undefined, currency: string = 'CNY'): string {
+  if (amount === undefined || amount === null) return '-'
+  return new Intl.NumberFormat('zh-CN', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount)
+}
