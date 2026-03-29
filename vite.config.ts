@@ -12,7 +12,7 @@ const config = defineConfig({
     viteReact(),
   ],
   server: {
-    port: 3001,
+    port: 3002,
     strictPort: true,
   },
 })
