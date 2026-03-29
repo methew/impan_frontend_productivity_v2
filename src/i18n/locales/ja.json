@@ -1,0 +1,386 @@
+{
+  "app": {
+    "name": "生産性ツール",
+    "subtitle": "プロジェクトとタスクを効率的に管理"
+  },
+  "meta": {
+    "myDay": {
+      "description": "今日のタスクを表示・管理し、最も重要なことに集中してください"
+    },
+    "inbox": {
+      "description": "タスクを迅速にキャプチャ・整理し、すべてのアイデアを一箇所に集めます"
+    },
+    "projects": {
+      "description": "プロジェクトを整理・管理し、進捗と完了状況を追跡します"
+    },
+    "tags": {
+      "description": "タグでコンテキスト別にタスクを整理し、関連項目を素早く見つけます"
+    },
+    "forecast": {
+      "description": "期限が近づいているタスクと期限超過項目を表示し、時間を効果的に計画します"
+    },
+    "calendar": {
+      "description": "カレンダーでタスクを表示・管理し、月/週/日ビューに対応"
+    },
+    "review": {
+      "description": "プロジェクトの進捗を定期的にレビューし、すべてが計画通りに進んでいることを確認します"
+    },
+    "flagged": {
+      "description": "重要としてマークされたすべてのタスクを表示し、重要な項目を優先します"
+    },
+    "completed": {
+      "description": "完了したタスク履歴を表示し、達成を追跡します"
+    },
+    "settings": {
+      "description": "アプリケーション設定をカスタマイズし、個人の好みを構成します"
+    },
+    "login": {
+      "description": "タスクとプロジェクトを管理するにはログインしてください"
+    }
+  },
+  "nav": {
+    "home": "ホーム",
+    "inbox": "受信箱",
+    "projects": "プロジェクト",
+    "tags": "タグ",
+    "forecast": "予定",
+    "calendar": "カレンダー",
+    "outline": "アウトライン",
+    "habits": "習慣",
+    "review": "レビュー",
+    "flagged": "重要",
+    "completed": "完了済み",
+    "settings": "設定"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "create": "作成",
+    "add": "追加",
+    "remove": "削除",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並び替え",
+    "loading": "読み込み中...",
+    "noData": "データがありません",
+    "confirm": "確認",
+    "close": "閉じる",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "submit": "送信",
+    "success": "成功",
+    "error": "エラー",
+    "warning": "警告",
+    "info": "情報",
+    "optional": "任意",
+    "required": "必須",
+    "all": "すべて",
+    "none": "なし",
+    "more": "もっと見る",
+    "less": "閉じる",
+    "expand": "展開",
+    "collapse": "折りたたむ",
+    "expandAll": "すべて展開",
+    "collapseAll": "すべて折りたたむ",
+    "items": "項目",
+    "noneFolder": "フォルダなし",
+    "dragTooltip": "ドラッグして並べ替え",
+    "cannotDropHere": "ここにはドロップできません",
+    "newTask": "新規タスク",
+    "perspectives": "パースペクティブ",
+    "perspectiveSettings": "パースペクティブ設定",
+    "newAction": "新規アクション",
+    "createAction": "アクションを作成",
+    "quickAdd": "クイック追加",
+    "dropToCreate": "ここにドロップしてフォルダを作成",
+    "noFolder": "なし",
+    "minutes": "{{count}}分",
+    "hours": "{{count}}時間",
+    "hoursMinutes": "{{hours}}時間{{mins}}分"
+  },
+  "auth": {
+    "login": "ログイン",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "loggingIn": "ログイン中...",
+    "loginSuccess": "ログインしました",
+    "loginFailed": "ログインに失敗しました",
+    "welcomeBack": "お帰りなさい！",
+    "enterCredentials": "メールアドレスとパスワードを入力してください",
+    "subtitle": "タスクを管理するにはログインしてください",
+    "appTitle": "To Do",
+    "logoutSuccess": "ログアウトしました",
+    "defaultUsername": "ユーザー",
+    "logout": "ログアウト"
+  },
+  "myDay": {
+    "title": "マイデイ",
+    "addTask": "タスクを追加",
+    "taskAdded": "マイデイに追加しました",
+    "focusYourDay": "今日に集中する",
+    "focusDescription": "一日を計画するためにタスクを追加してください。完了したらチェックを付けましょう！",
+    "completed": "完了済み",
+    "taskCount": "タスク"
+  },
+  "inbox": {
+    "title": "受信箱",
+    "addAction": "受信箱アクションを追加",
+    "actionAdded": "アクションを追加しました",
+    "addFailed": "追加に失敗しました",
+    "inbox": "受信箱"
+  },
+  "completed": {
+    "title": "完了済み",
+    "taskCount": "完了済みタスク",
+    "today": "今日",
+    "restore": "復元",
+    "noTasks": "完了済みタスクはありません",
+    "noTasksDescription": "タスクを完了すると、ここに表示されます"
+  },
+  "flagged": {
+    "title": "重要",
+    "taskCount": "重要なタスク",
+    "noTasks": "重要なタスクはありません",
+    "noTasksDescription": "タスクを重要としてマークすると、ここに表示されます"
+  },
+  "forecast": {
+    "title": "予定",
+    "overdue": "期限超過"
+  },
+  "review": {
+    "title": "レビュー",
+    "projectsNeedReview": "プロジェクトがレビューが必要です",
+    "needsReview": "レビューが必要",
+    "reviewed": "レビュー済み",
+    "noProjects": "レビューが必要なプロジェクトはありません",
+    "noProjectsDescription": "プロジェクトが計画通りに進んでいるか定期的にレビューしてください",
+    "reviewInterval": "日ごとのレビュー",
+    "lastReviewed": "前回のレビュー",
+    "review": "レビュー"
+  },
+  "calendar": {
+    "title": "カレンダー",
+    "month": "月",
+    "week": "週",
+    "day": "日",
+    "today": "今日",
+    "more": "さらに"
+  },
+  "outline": {
+    "title": "アウトライン"
+  },
+  "habits": {
+    "title": "習慣",
+    "addHabit": "習慣を追加",
+    "newHabit": "新規習慣",
+    "name": "習慣名",
+    "namePlaceholder": "例：朝の読書",
+    "color": "色",
+    "targetDays": "週の目標日数"
+  },
+  "tags": {
+    "title": "タグ",
+    "subtitle": "コンテキスト別にタスクを整理",
+    "newTag": "新規タグ",
+    "moreTasks": "さらに {{count}} 件のタスク..."
+  },
+  "projects": {
+    "title": "プロジェクト",
+    "selectView": "プロジェクトまたはフォルダを選択",
+    "selectViewDescription": "詳細を表示するには、左側からプロジェクトまたはフォルダを選択してください",
+    "folderNotExist": "フォルダが存在しません",
+    "projectNotExist": "プロジェクトが存在しません",
+    "projectCount": "プロジェクト",
+    "view": "表示",
+    "available": "利用可能",
+    "remaining": "残り",
+    "all": "すべて",
+    "newProject": "新規プロジェクト",
+    "newFolder": "新規フォルダ",
+    "titleLabel": "タイトル",
+    "nameLabel": "名前",
+    "typeLabel": "タイプ",
+    "folderLabel": "フォルダ（任意）",
+    "parentFolderLabel": "親フォルダ（任意）",
+    "parallel": "並列",
+    "sequential": "順序",
+    "singleAction": "単一アクション",
+    "parallelProject": "並列プロジェクト",
+    "sequentialProject": "順序プロジェクト",
+    "singleActionList": "単一アクションリスト",
+    "action": "アクション",
+    "created": "作成しました",
+    "createFailed": "作成に失敗しました",
+    "updated": "更新しました",
+    "updateFailed": "更新に失敗しました",
+    "folderUpdated": "フォルダを更新しました",
+    "folderUpdateFailed": "更新に失敗しました",
+    "collapseFolder": "フォルダを折りたたむ",
+    "expandFolder": "フォルダを展開",
+    "cannotDropFolderIntoProject": "フォルダをプロジェクト内に入れることはできません",
+    "addNewAction": "新規アクションを追加...",
+    "status": {
+      "completed": "完了済み",
+      "dropped": "破棄済み"
+    },
+    "tooltip": {
+      "completed": "完了済み（クリックして復元）",
+      "dropped": "破棄済み（クリックして復元）",
+      "actionGroupComplete": "アクショングループ - クリックして完了",
+      "completeOrDrop": "クリックして完了、Alt+クリックで破棄"
+    }
+  },
+  "validation": {
+    "required": "この項目は必須です",
+    "email": "有効なメールアドレスを入力してください",
+    "minLength": "{{count}}文字以上で入力してください",
+    "maxLength": "{{count}}文字以内で入力してください",
+    "passwordMismatch": "パスワードが一致しません"
+  },
+  "message": {
+    "createSuccess": "作成しました",
+    "updateSuccess": "更新しました",
+    "deleteSuccess": "削除しました",
+    "deleteConfirm": "削除してもよろしいですか？この操作は元に戻せません。",
+    "unsavedChanges": "保存されていない変更があります。このページを離れますか？",
+    "networkError": "ネットワークエラーが発生しました。後でもう一度お試しください",
+    "serverError": "サーバーエラーが発生しました。後でもう一度お試しください"
+  },
+  "inspector": {
+    "type": {
+      "task": "アクション",
+      "project": "プロジェクト",
+      "folder": "フォルダ"
+    },
+    "section": {
+      "name": "名前",
+      "title": "タイトル",
+      "shortTitle": "短縮名",
+      "status": "状態",
+      "parentFolder": "親フォルダ",
+      "tags": "タグ",
+      "dates": "日付",
+      "repetition": "繰り返し",
+      "notes": "メモ",
+      "attachments": "添付ファイル"
+    },
+    "placeholder": {
+      "folderName": "フォルダ名",
+      "actionTitle": "アクションタイトル",
+      "projectTitle": "プロジェクトタイトル",
+      "shortTitle": "短縮名"
+    },
+    "date": {
+      "deferTo": "延期先",
+      "deferDescription": "この日付までは項目を利用できません",
+      "due": "期限日",
+      "dueDescription": "この日付までに完了する必要があります"
+    }
+  },
+  "status": {
+    "active": "進行中",
+    "onHold": "保留中"
+  },
+  "date": {
+    "today": "今日",
+    "tomorrow": "明日",
+    "yesterday": "昨日"
+  },
+  "projectType": {
+    "sequential": "順序",
+    "singleAction": "単一アクション"
+  },
+  "task": {
+    "created": "アクションを作成しました"
+  },
+  "dialog": {
+    "newAction": {
+      "title": "新規アクション",
+      "actionTitleLabel": "タイトル",
+      "actionTitlePlaceholder": "アクションタイトル",
+      "projectLabel": "プロジェクト（任意）",
+      "projectPlaceholder": "プロジェクトを選択...",
+      "parentLabel": "親アクション（任意）",
+      "noParent": "なし（トップレベル）",
+      "actionGroupTypeLabel": "アクショングループタイプ",
+      "typeLabel": "タイプ",
+      "typeRegular": "通常アクション",
+      "typeActionGroup": "アクショングループ",
+      "actionGroupHint": "アクショングループはサブアクションを含むことができます。親を完了するにはすべてのサブアクションを完了する必要があります",
+      "parentHint": "これをサブアクションにするには、アクショングループを親として選択してください",
+      "sequentialGroup": "【順序】",
+      "parallelGroup": "【並列】",
+      "markLabel": "マーク",
+      "important": "! 重要",
+      "urgent": "* 緊急",
+      "dueDate": "期限日",
+      "deferDate": "延期先"
+    }
+  },
+  "toolbar": {
+    "toggleSidebar": "サイドバーの表示/非表示",
+    "itemCount": "{{count}} 項目",
+    "searchPlaceholder": "検索...",
+    "newAction": "新規アクション",
+    "showAvailable": "利用可能を表示",
+    "showRemaining": "残りを表示",
+    "showAll": "すべて表示",
+    "viewOptions": "表示オプション...",
+    "flag": "フラグ",
+    "complete": "完了",
+    "share": "共有",
+    "delete": "削除"
+  },
+  "settings": {
+    "title": "設定",
+    "general": "一般",
+    "display": "表示",
+    "taskDefaults": "タスクの既定値",
+    "save": "保存",
+    "saving": "保存中...",
+    "cancel": "キャンセル",
+    "saveSuccess": "設定を保存しました",
+    "saveError": "設定の保存に失敗しました",
+    "changesDiscarded": "変更を破棄しました",
+    "unsavedChanges": "保存されていない変更があります",
+    "resetToDefaults": "既定値に戻す",
+    "generalDescription": "アプリケーションの一般設定を構成します",
+    "displayDescription": "項目の表示方法をカスタマイズします",
+    "taskDefaultsDescription": "新しいタスクとプロジェクトの既定値を設定します",
+    "defaultPerspective": "デフォルトパースペクティブ",
+    "selectPerspective": "パースペクティブを選択",
+    "defaultPerspectiveHelp": "アプリを開いたときに表示されるパースペクティブ",
+    "weekStartDay": "週の開始日",
+    "selectDay": "曜日を選択",
+    "days": {
+      "sunday": "日曜日",
+      "monday": "月曜日",
+      "tuesday": "火曜日",
+      "wednesday": "水曜日",
+      "thursday": "木曜日",
+      "friday": "金曜日",
+      "saturday": "土曜日"
+    },
+    "defaultReviewInterval": "デフォルトレビュー間隔",
+    "days": "日",
+    "defaultReviewIntervalHelp": "プロジェクトをレビューする頻度のデフォルト",
+    "showCompletedItems": "完了済み項目を表示",
+    "showCompletedItemsHelp": "リストに完了済みの項目をデフォルトで表示する",
+    "showDroppedItems": "破棄済み項目を表示",
+    "showDroppedItemsHelp": "リストに破棄済みの項目をデフォルトで表示する",
+    "todayStartHour": "今日の開始時刻",
+    "todayStartHourHelp": "「今日」パースペクティブが項目を表示し始める時刻",
+    "defaultProjectType": "デフォルトプロジェクトタイプ",
+    "defaultProjectTypeHelp": "新しいプロジェクトのデフォルトタイプ",
+    "taskDefaultDuration": "デフォルトタスク時間",
+    "minutes": "分",
+    "taskDefaultDurationHelp": "新しいタスクの推定所要時間",
+    "morningStartTime": "朝の開始時刻",
+    "morningStartTimeHelp": "スケジューリング用の朝の開始時刻",
+    "eveningStartTime": "夕方の開始時刻",
+    "eveningStartTimeHelp": "スケジューリング用の夕方の開始時刻"
+  }
+}
