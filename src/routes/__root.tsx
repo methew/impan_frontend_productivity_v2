@@ -10,6 +10,7 @@ import { TaskPaperDialog } from '@/components/TaskPaperDialog'
 import { useCreateTask } from '@/hooks/useTasks'
 import { SearchProvider } from '@/hooks/useSearch'
 import { toast } from 'sonner'
+import { APP_VERSION } from '@/version'
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -146,8 +147,11 @@ function RootLayout() {
         />
 
         {/* Content with Outlet */}
-        <div className="overflow-hidden min-h-0">
+        <div className="overflow-hidden min-h-0 relative">
           <Outlet />
+          <div className="fixed bottom-2 right-2 text-[10px] text-muted-foreground/60 pointer-events-none select-none z-50">
+            {APP_VERSION}
+          </div>
         </div>
       </div>
       
