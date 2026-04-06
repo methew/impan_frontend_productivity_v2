@@ -134,11 +134,16 @@ export async function logout(): Promise<void> {
   window.location.href = `${config.appUrl}/login`
 }
 
+export interface RefreshTokenResponse {
+  access: string
+  refresh?: string
+}
+
 /**
  * 刷新 Access Token
  * 使用 HttpOnly Cookie 中的 refresh_token
  */
-export async function refreshToken(): Promise<string | null> {
+export async function refreshToken(): Promise<RefreshTokenResponse | null> {
   try {
     const response = await fetch(
       `${config.apiBaseUrl}/core/auth/center/token/refresh/`,
@@ -150,13 +155,40 @@ export async function refreshToken(): Promise<string | null> {
 
     if (response.ok) {
       const data = await response.json()
-      return data.access
+      return {
+        access: data.access,
+        refresh: data.refresh,
+      }
     }
+    console.error('[Auth] Token refresh failed:', response.status)
     return null
   } catch (error) {
-    console.error('[Auth] Refresh token failed:', error)
+    console.error('[Auth] Token refresh error:', error)
     return null
   }
+}
+
+/**
+ * 执行完整的 token 刷新流程
+ * - 如果刷新失败，自动退出登录
+ * - 如果 refresh token 被轮换，跳转到首页
+ */
+export async function performTokenRefresh(): Promise<boolean> {
+  const result = await refreshToken()
+  
+  if (!result) {
+    console.error('[Auth] Token refresh failed, logging out...')
+    await logout()
+    return false
+  }
+  
+  if (result.refresh) {
+    console.log('[Auth] Refresh token rotated, redirecting to home...')
+    window.location.href = '/'
+    return true
+  }
+  
+  return true
 }
 
 /**
@@ -203,31 +235,22 @@ export function isAuthenticated(): boolean {
  * 在应用启动时调用，确保 token 不会过期
  */
 export function startTokenRefreshTimer(): () => void {
-  // 清除现有定时器
   const existingTimer = (window as any).__tokenRefreshTimer
   if (existingTimer) {
     clearInterval(existingTimer)
   }
 
-  // 立即检查一次
-  refreshToken()
+  performTokenRefresh()
 
-  // 设置定期刷新
   const timer = setInterval(async () => {
     const isAuth = await checkAuth()
     if (isAuth) {
-      try {
-        await refreshToken()
-        console.log('[Auth] Token refreshed successfully')
-      } catch (error) {
-        console.error('[Auth] Token refresh failed:', error)
-      }
+      await performTokenRefresh()
     }
   }, TOKEN_REFRESH_INTERVAL)
 
   ;(window as any).__tokenRefreshTimer = timer
 
-  // 返回清理函数
   return () => {
     clearInterval(timer)
     ;(window as any).__tokenRefreshTimer = null
