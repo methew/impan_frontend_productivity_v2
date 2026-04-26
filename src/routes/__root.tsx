@@ -59,6 +59,13 @@ function RootLayout() {
     }
   }, [isAuth, isClient, currentPath, navigate])
 
+  // 保存当前路由到 sessionStorage
+  useEffect(() => {
+    if (currentPath !== '/login' && !currentPath.startsWith('/oauth/')) {
+      sessionStorage.setItem('last_route', currentPath)
+    }
+  }, [currentPath])
+
   // Get perspective name from path
   const getPerspectiveName = () => {
     const names: Record<string, string> = {

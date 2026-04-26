@@ -22,6 +22,15 @@ const router = createRouter({
   context: { queryClient },
 })
 
+// 恢复上次访问的路由
+const savedPath = sessionStorage.getItem('last_route')
+const currentPath = window.location.pathname
+const isAuthPage = currentPath === '/login' || currentPath.startsWith('/oauth/')
+const isHomePage = currentPath === '/'
+if (savedPath && !isAuthPage && isHomePage && savedPath !== currentPath) {
+  void router.navigate({ to: savedPath, replace: true })
+}
+
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router

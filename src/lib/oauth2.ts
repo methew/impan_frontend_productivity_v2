@@ -93,7 +93,8 @@ export async function startOAuth2Login(options: { redirectPath?: string } = {}):
   // 默认跳转到当前路径，但排除登录相关页面避免死循环
   const currentPath = window.location.pathname
   const isAuthPage = currentPath === '/login' || currentPath.startsWith('/oauth/')
-  const defaultRedirect = isAuthPage ? '/' : currentPath
+  const lastRoute = sessionStorage.getItem('last_route')
+  const defaultRedirect = isAuthPage ? (lastRoute || '/') : currentPath
   const { redirectPath = defaultRedirect } = options
   
   // 1. 生成 PKCE 参数
